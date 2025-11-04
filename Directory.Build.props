@@ -1,0 +1,50 @@
+<Project>
+
+    <!-- Project metadata. -->
+    <PropertyGroup>
+        <Description>Logging module for consistent logging behavior across multiple projects.</Description>
+        <RootNamespace>SparkliTwizzl.Trioxichor.$(MSBuildProjectName)</RootNamespace>
+        <SolutionName>Module.sln</SolutionName>
+    </PropertyGroup>
+
+    <!-- Code and editor config. -->
+    <ItemGroup>
+        <None Include=".editorconfig" Link=".editorconfig"/>
+    </ItemGroup>
+
+    <!-- Universal project configs. -->
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <!-- Base directories for all code files. -->
+    <PropertyGroup>
+        <RootDir>$(MSBuildThisFileDirectory)</RootDir>
+        <SourceDir>$(RootDir)Source\</SourceDir>
+        <TestDir>$(RootDir)Test\</TestDir>
+    </PropertyGroup>
+
+    <!-- Base directories for build/test/run files. -->
+    <PropertyGroup>
+        <BaseBuildDir>$(RootDir)build\</BaseBuildDir>
+        <BaseLogDir>$(RootDir)logs\</BaseLogDir>
+        <BaseOutputDir>$(RootDir)output\</BaseOutputDir>
+    </PropertyGroup>
+
+    <!-- Templates for build/test/run directories. Category must be defined in per-directory Directory.Build.props files. -->
+    <PropertyGroup>
+        <BuildDir>$(BaseBuildDir)$(Category)\</BuildDir>
+        <LogDir>$(BaseLogDir)$(Category)\</LogDir>
+        <OutputDir>$(BaseOutputDir)$(Category)\</OutputDir>
+    </PropertyGroup>
+
+    <!-- Templates for build file locations. -->
+    <PropertyGroup>
+        <BaseIntermediateOutputPath>$(BuildDir)$(MSBuildProjectName)\obj\</BaseIntermediateOutputPath>
+        <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\</IntermediateOutputPath>
+        <OutputPath>$(OutputDir)$(Configuration)\</OutputPath>
+    </PropertyGroup>
+
+</Project>
