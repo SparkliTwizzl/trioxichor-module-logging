@@ -1,4 +1,4 @@
-<div align="center"><image width="200" src="./Branding/logo.png"></div>
+<div align="center"><image width="200" src="Trioxichor.png"></div>
 <h1 align="center">Trioxichor Logging Module</h1>
 <h3 align="center">Version 0.0</h3>
 <h4 align="center">/ˈtriˌɑksɪˌkɔːr/ (noun) The scent of ozone, particularly when caused by oxidation of air by electricity.</h4>
