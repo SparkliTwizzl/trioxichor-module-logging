@@ -5,8 +5,7 @@ namespace SparkliTwizzl.Trioxichor.Logging
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Log level <see cref="LogLevel.Trace"/> is disabled in Release mode.
-    /// Log level <see cref="LogLevel.Debug"/> is disabled in Release mode by default, but can be enabled if desired.
+    /// Log level defaults to <see cref="LogLevel.Debug"/> in Debug mode and <see cref="LogLevel.Info"/> in Release mode unless manually configured.
     /// </para>
     /// <para>
     /// Implementations should defer calling a message's <see cref="object.ToString()"/> method until the message needs to be logged for performance reasons.
@@ -14,8 +13,6 @@ namespace SparkliTwizzl.Trioxichor.Logging
     /// </remarks>
     public interface ILogger
     {
-        void Configure(LogConfig config);
-
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Debug"/>.
         /// </summary>
@@ -32,24 +29,23 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Debug"/>.
         /// </summary>
-        /// <param name="Exception">Exception to log.</param>
+        /// <param name="exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Debug( object message, Exception Exception );
+        void Debug( object message, Exception exception );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Debug"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
-        /// <param name="Exception">Exception to log.</param>
+        /// <param name="exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Debug( object message, Exception Exception, params object[] args );
+        void Debug( object message, Exception exception, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Debug"/>.
         /// </summary>
         /// <remarks>
-        /// The message factory is only invoked if the message is actually logged,
-        /// which can improve performance when the log level is disabled.
+        /// Message factory is only invoked if the message is actually logged, which can improve performance when the log level is disabled.
         /// </remarks>
         /// <param name="messageFactory">Function to generate the message to log.</param>
         void Debug( Func<string> messageFactory );
@@ -70,24 +66,23 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Error"/>.
         /// </summary>
-        /// <param name="Exception">Exception to log.</param>
+        /// <param name="exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Error( object message, Exception Exception );
+        void Error( object message, Exception exception );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Error"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
-        /// <param name="Exception">Exception to log.</param>
+        /// <param name="exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Error( object message, Exception Exception, params object[] args );
+        void Error( object message, Exception exception, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Error"/>.
         /// </summary>
         /// <remarks>
-        /// The message factory is only invoked if the message is actually logged,
-        /// which can improve performance when the log level is disabled.
+        /// Message factory is only invoked if the message is actually logged, which can improve performance when the log level is disabled.
         /// </remarks>
         /// <param name="messageFactory">Function to generate the message to log.</param>
         void Error(Func<string> messageFactory);
@@ -108,24 +103,23 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Fatal"/>.
         /// </summary>
-        /// <param name="Exception">Exception to log.</param>
+        /// <param name="exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Fatal( object message, Exception Exception );
+        void Fatal( object message, Exception exception );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Fatal"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
-        /// <param name="Exception">Exception to log.</param>
+        /// <param name="exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Fatal( object message, Exception Exception, params object[] args );
+        void Fatal( object message, Exception exception, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Fatal"/>.
         /// </summary>
         /// <remarks>
-        /// The message factory is only invoked if the message is actually logged,
-        /// which can improve performance when the log level is disabled.
+        /// Message factory is only invoked if the message is actually logged, which can improve performance when the log level is disabled.
         /// </remarks>
         /// <param name="messageFactory">Function to generate the message to log.</param>
         void Fatal(Func<string> messageFactory);
@@ -146,24 +140,23 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Info"/>.
         /// </summary>
-        /// <param name="Exception">Exception to log.</param>
+        /// <param name="exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Info( object message, Exception Exception );
+        void Info( object message, Exception exception );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Info"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
-        /// <param name="Exception">Exception to log.</param>
+        /// <param name="exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Info( object message, Exception Exception, params object[] args );
+        void Info( object message, Exception exception, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Info"/>.
         /// </summary>
         /// <remarks>
-        /// The message factory is only invoked if the message is actually logged,
-        /// which can improve performance when the log level is disabled.
+        /// Message factory is only invoked if the message is actually logged, which can improve performance when the log level is disabled.
         /// </remarks>
         /// <param name="messageFactory">Function to generate the message to log.</param>
         void Info(Func<string> messageFactory);
@@ -184,24 +177,23 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Trace"/>.
         /// </summary>
-        /// <param name="Exception">Exception to log.</param>
+        /// <param name="exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Trace( object message, Exception Exception );
+        void Trace( object message, Exception exception );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Trace"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
-        /// <param name="Exception">Exception to log.</param>
+        /// <param name="exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Trace( object message, Exception Exception, params object[] args );
+        void Trace( object message, Exception exception, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Trace"/>.
         /// </summary>
         /// <remarks>
-        /// The message factory is only invoked if the message is actually logged,
-        /// which can improve performance when the log level is disabled.
+        /// Message factory is only invoked if the message is actually logged, which can improve performance when the log level is disabled.
         /// </remarks>
         /// <param name="messageFactory">Function to generate the message to log.</param>
         void Trace(Func<string> messageFactory);
@@ -222,24 +214,23 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Warning"/>.
         /// </summary>
-        /// <param name="Exception">Exception to log.</param>
+        /// <param name="exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Warning( object message, Exception Exception );
+        void Warning( object message, Exception exception );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Warning"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
-        /// <param name="Exception">Exception to log.</param>
+        /// <param name="exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Warning( object message, Exception Exception, params object[] args );
+        void Warning( object message, Exception exception, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Warning"/>.
         /// </summary>
         /// <remarks>
-        /// The message factory is only invoked if the message is actually logged,
-        /// which can improve performance when the log level is disabled.
+        /// Message factory is only invoked if the message is actually logged, which can improve performance when the log level is disabled.
         /// </remarks>
         /// <param name="messageFactory">Function to generate the message to log.</param>
         void Warning(Func<string> messageFactory);
