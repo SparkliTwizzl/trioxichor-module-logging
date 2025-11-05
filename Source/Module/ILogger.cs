@@ -1,38 +1,48 @@
 namespace SparkliTwizzl.Trioxichor.Logging
 {
     /// <summary>
-    /// Simple, minimal logging wrapper interface.
-    /// Implementations should avoid throwing from logging methods.
+    /// Simple logging wrapper interface.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Log level <see cref="LogLevel.Trace"/> is disabled in Release mode.
+    /// Log level <see cref="LogLevel.Debug"/> is disabled in Release mode by default, but can be enabled if desired.
+    /// </para>
+    /// <para>
+    /// Implementations should defer calling a message's <see cref="object.ToString()"/> method until the message needs to be logged for performance reasons.
+    /// </para>
+    /// </remarks>
     public interface ILogger
     {
+        void Configure(LogConfig config);
+
         /// <summary>
-		/// Log a message with level <see cref="LogLevel.Debug"/>.
-		/// </summary>
+        /// Log a message with level <see cref="LogLevel.Debug"/>.
+        /// </summary>
         /// <param name="message">Message to log.</param>
-        void Debug( string message );
+        void Debug( object message );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Debug"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
         /// <param name="message">Message to log.</param>
-        void Debug( string message, params object[] args );
+        void Debug( object message, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Debug"/>.
         /// </summary>
-        /// <param name="exception">Exception to log.</param>
+        /// <param name="Exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Debug( string message, Exception? exception );
+        void Debug( object message, Exception Exception );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Debug"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
-        /// <param name="exception">Exception to log.</param>
+        /// <param name="Exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Debug( string message, Exception? exception, params object[] args );
+        void Debug( object message, Exception Exception, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Debug"/>.
@@ -48,29 +58,29 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// Log a message with level <see cref="LogLevel.Error"/>.
         /// </summary>
         /// <param name="message">Message to log.</param>
-        void Error( string message );
+        void Error( object message );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Error"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
         /// <param name="message">Message to log.</param>
-        void Error( string message, params object[] args );
+        void Error( object message, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Error"/>.
         /// </summary>
-        /// <param name="exception">Exception to log.</param>
+        /// <param name="Exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Error( string message, Exception? exception );
+        void Error( object message, Exception Exception );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Error"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
-        /// <param name="exception">Exception to log.</param>
+        /// <param name="Exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Error( string message, Exception? exception, params object[] args );
+        void Error( object message, Exception Exception, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Error"/>.
@@ -86,29 +96,29 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// Log a message with level <see cref="LogLevel.Fatal"/>.
         /// </summary>
         /// <param name="message">Message to log.</param>
-        void Fatal( string message );
+        void Fatal( object message );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Fatal"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
         /// <param name="message">Message to log.</param>
-        void Fatal( string message, params object[] args );
+        void Fatal( object message, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Fatal"/>.
         /// </summary>
-        /// <param name="exception">Exception to log.</param>
+        /// <param name="Exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Fatal( string message, Exception? exception );
+        void Fatal( object message, Exception Exception );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Fatal"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
-        /// <param name="exception">Exception to log.</param>
+        /// <param name="Exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Fatal( string message, Exception? exception, params object[] args );
+        void Fatal( object message, Exception Exception, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Fatal"/>.
@@ -124,29 +134,29 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// Log a message with level <see cref="LogLevel.Info"/>.
         /// </summary>
         /// <param name="message">Message to log.</param>
-        void Info( string message );
+        void Info( object message );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Info"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
         /// <param name="message">Message to log.</param>
-        void Info( string message, params object[] args );
+        void Info( object message, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Info"/>.
         /// </summary>
-        /// <param name="exception">Exception to log.</param>
+        /// <param name="Exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Info( string message, Exception? exception );
+        void Info( object message, Exception Exception );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Info"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
-        /// <param name="exception">Exception to log.</param>
+        /// <param name="Exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Info( string message, Exception? exception, params object[] args );
+        void Info( object message, Exception Exception, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Info"/>.
@@ -162,29 +172,29 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// Log a message with level <see cref="LogLevel.Trace"/>.
         /// </summary>
         /// <param name="message">Message to log.</param>
-        void Trace( string message );
+        void Trace( object message );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Trace"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
         /// <param name="message">Message to log.</param>
-        void Trace( string message, params object[] args );
+        void Trace( object message, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Trace"/>.
         /// </summary>
-        /// <param name="exception">Exception to log.</param>
+        /// <param name="Exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Trace( string message, Exception? exception );
+        void Trace( object message, Exception Exception );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Trace"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
-        /// <param name="exception">Exception to log.</param>
+        /// <param name="Exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Trace( string message, Exception? exception, params object[] args );
+        void Trace( object message, Exception Exception, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Trace"/>.
@@ -200,29 +210,29 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// Log a message with level <see cref="LogLevel.Warning"/>.
         /// </summary>
         /// <param name="message">Message to log.</param>
-        void Warning( string message );
+        void Warning( object message );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Warning"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
         /// <param name="message">Message to log.</param>
-        void Warning( string message, params object[] args );
+        void Warning( object message, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Warning"/>.
         /// </summary>
-        /// <param name="exception">Exception to log.</param>
+        /// <param name="Exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Warning( string message, Exception? exception );
+        void Warning( object message, Exception Exception );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Warning"/>.
         /// </summary>
         /// <param name="args">List of arguments to format the message with.</param>
-        /// <param name="exception">Exception to log.</param>
+        /// <param name="Exception">Exception to log.</param>
         /// <param name="message">Message to log.</param>
-        void Warning( string message, Exception? exception, params object[] args );
+        void Warning( object message, Exception Exception, params object[] args );
 
         /// <summary>
         /// Log a message with level <see cref="LogLevel.Warning"/>.

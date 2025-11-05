@@ -4,7 +4,6 @@
     <PropertyGroup>
         <Description>Logging module for consistent logging behavior across multiple projects.</Description>
         <RootNamespace>SparkliTwizzl.Trioxichor.$(MSBuildProjectName)</RootNamespace>
-        <SolutionName>Module.sln</SolutionName>
     </PropertyGroup>
 
     <!-- Code and editor config. -->
@@ -17,6 +16,12 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
 
     <!-- Base directories for all code files. -->
