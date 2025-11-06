@@ -5,6 +5,29 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// <summary>
         /// Log level coloration to use for console logging, if enabled.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Default color map:
+        /// </para>
+        /// <para>
+        /// • <see cref="LogLevel.Trace"/> → <see cref="ConsoleColor.Blue"/>
+        /// </para>
+        /// <para>
+        /// • <see cref="LogLevel.Debug"/> → <see cref="ConsoleColor.Cyan"/>
+        /// </para>
+        /// <para>
+        /// • <see cref="LogLevel.Info"/> → <see cref="ConsoleColor.Green"/>
+        /// </para>
+        /// <para>
+        /// • <see cref="LogLevel.Warning"/> → <see cref="ConsoleColor.Yellow"/>
+        /// </para>
+        /// <para>
+        /// • <see cref="LogLevel.Error"/> → <see cref="ConsoleColor.Red"/>
+        /// </para>
+        /// <para>
+        /// • <see cref="LogLevel.Fatal"/> → <see cref="ConsoleColor.Magenta"/>
+        /// </para>
+        /// </remarks>
         public Dictionary<LogLevel, ConsoleColor> LogLevelColorMap { get; set; } = new()
         {
             [ LogLevel.Trace ] = ConsoleColor.Blue,
