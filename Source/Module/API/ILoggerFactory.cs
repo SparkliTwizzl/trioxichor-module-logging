@@ -6,7 +6,7 @@ namespace SparkliTwizzl.Trioxichor.Logging
         /// Configures the logger factory with the given configuration.
         /// </summary>
         /// <param name="config">The configuration to apply.</param>
-        void Configure( LoggerConfiguration config );
+        void Configure( LogConfiguration config );
 
         /// <summary>
         /// Creates a new <see cref="ILogger"/> instance.

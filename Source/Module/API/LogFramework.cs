@@ -4,7 +4,6 @@ namespace SparkliTwizzl.Trioxichor.Logging
     {
         Logary,
         log4net,
-        MicrosoftExtensionsLogging,
         NLog,
         Serilog,
         ZLogger,
