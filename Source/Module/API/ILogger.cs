@@ -1,15 +1,8 @@
 namespace SparkliTwizzl.Trioxichor.Logging;
 
-/// <summary>
-/// Simple logging wrapper interface.
-/// </summary>
+/// <summary>Simple logging wrapper interface.</summary>
 /// <remarks>
-/// <para>
-/// Log level defaults to <see cref="LogLevel.Debug"/> in Debug mode and <see cref="LogLevel.Info"/> in Release mode unless manually configured.
-/// </para>
-/// <para>
-/// Implementations should defer calling a message's <see cref="object.ToString()"/> method until the message needs to be logged for performance reasons.
-/// </para>
+/// <para>Log level defaults to <see cref="LogLevel.Debug"/> in Debug mode and <see cref="LogLevel.Info"/> in Release mode unless manually configured.</para>
 /// </remarks>
 public interface ILogger
 {
@@ -17,21 +10,21 @@ public interface ILogger
     /// Log a message with level <see cref="LogLevel.Debug"/>.
     /// </summary>
     /// <param name="message">Message to log.</param>
-    void LogDebug( object message );
+    void LogDebug( string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Debug"/>.
     /// </summary>
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="message">Message to log.</param>
-    void LogDebug( object message, params object[] args );
+    void LogDebug( string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Debug"/>.
     /// </summary>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogDebug( Exception exception, object message );
+    void LogDebug( Exception exception, string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Debug"/>.
@@ -39,7 +32,7 @@ public interface ILogger
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogDebug( Exception exception, object message, params object[] args );
+    void LogDebug( Exception exception, string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Debug"/>.
@@ -54,21 +47,21 @@ public interface ILogger
     /// Log a message with level <see cref="LogLevel.Error"/>.
     /// </summary>
     /// <param name="message">Message to log.</param>
-    void LogError( object message );
+    void LogError( string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Error"/>.
     /// </summary>
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="message">Message to log.</param>
-    void LogError( object message, params object[] args );
+    void LogError( string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Error"/>.
     /// </summary>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogError( Exception exception, object message );
+    void LogError( Exception exception, string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Error"/>.
@@ -76,7 +69,7 @@ public interface ILogger
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogError( Exception exception, object message, params object[] args );
+    void LogError( Exception exception, string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Error"/>.
@@ -91,21 +84,21 @@ public interface ILogger
     /// Log a message with level <see cref="LogLevel.Fatal"/>.
     /// </summary>
     /// <param name="message">Message to log.</param>
-    void LogFatal( object message );
+    void LogFatal( string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Fatal"/>.
     /// </summary>
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="message">Message to log.</param>
-    void LogFatal( object message, params object[] args );
+    void LogFatal( string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Fatal"/>.
     /// </summary>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogFatal( Exception exception, object message );
+    void LogFatal( Exception exception, string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Fatal"/>.
@@ -113,7 +106,7 @@ public interface ILogger
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogFatal( Exception exception, object message, params object[] args );
+    void LogFatal( Exception exception, string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Fatal"/>.
@@ -128,21 +121,21 @@ public interface ILogger
     /// Log a message with level <see cref="LogLevel.Info"/>.
     /// </summary>
     /// <param name="message">Message to log.</param>
-    void LogInfo( object message );
+    void LogInfo( string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Info"/>.
     /// </summary>
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="message">Message to log.</param>
-    void LogInfo( object message, params object[] args );
+    void LogInfo( string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Info"/>.
     /// </summary>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogInfo( Exception exception, object message );
+    void LogInfo( Exception exception, string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Info"/>.
@@ -150,7 +143,7 @@ public interface ILogger
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogInfo( Exception exception, object message, params object[] args );
+    void LogInfo( Exception exception, string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Info"/>.
@@ -165,21 +158,21 @@ public interface ILogger
     /// Log a message with level <see cref="LogLevel.Trace"/>.
     /// </summary>
     /// <param name="message">Message to log.</param>
-    void LogTrace( object message );
+    void LogTrace( string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Trace"/>.
     /// </summary>
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="message">Message to log.</param>
-    void LogTrace( object message, params object[] args );
+    void LogTrace( string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Trace"/>.
     /// </summary>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogTrace( Exception exception, object message );
+    void LogTrace( Exception exception, string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Trace"/>.
@@ -187,7 +180,7 @@ public interface ILogger
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogTrace( Exception exception, object message, params object[] args );
+    void LogTrace( Exception exception, string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Trace"/>.
@@ -202,21 +195,21 @@ public interface ILogger
     /// Log a message with level <see cref="LogLevel.Warning"/>.
     /// </summary>
     /// <param name="message">Message to log.</param>
-    void LogWarning( object message );
+    void LogWarning( string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Warning"/>.
     /// </summary>
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="message">Message to log.</param>
-    void LogWarning( object message, params object[] args );
+    void LogWarning( string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Warning"/>.
     /// </summary>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogWarning( Exception exception, object message );
+    void LogWarning( Exception exception, string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Warning"/>.
@@ -224,7 +217,7 @@ public interface ILogger
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogWarning( Exception exception, object message, params object[] args );
+    void LogWarning( Exception exception, string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Warning"/>.
