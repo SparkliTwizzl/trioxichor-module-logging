@@ -6,21 +6,28 @@ namespace SparkliTwizzl.Trioxichor.Logging.Frameworks
 {
     class NLogLogger : ILoggingFramework
     {
-        LoggingConfiguration NLogConfig { get; set; } = new();
+        NLog.LogLevel ConvertLogLevelToNLog( LogLevel level ) => level switch
+        {
+            LogLevel.Trace => NLog.LogLevel.Trace,
+            LogLevel.Debug => NLog.LogLevel.Debug,
+            LogLevel.Info => NLog.LogLevel.Info,
+            LogLevel.Warning => NLog.LogLevel.Warn,
+            LogLevel.Error => NLog.LogLevel.Error,
+            LogLevel.Fatal => NLog.LogLevel.Fatal,
+            LogLevel.None => NLog.LogLevel.Off,
+            _ => throw new ArgumentOutOfRangeException( nameof( level ), $"Unsupported {nameof( LogLevel )}: {level}" )
+        };
 
-        void AddConsoleTarget( LogConfiguration config )
+        Target CreateConsoleTarget( LogConfiguration config )
         {
             if ( config.UsePerLevelColors && config.ConsoleColorMap != null )
             {
-                AddColoredConsoleTarget( config.ConsoleColorMap );
+                return CreateColoredConsoleTarget( config.ConsoleColorMap );
             }
-            else
-            {
-                AddMonochromeConsoleTarget();
-            }
+            return CreateMonochromeConsoleTarget();
         }
 
-        void AddColoredConsoleTarget( Dictionary<LogLevel, ConsoleColor> colorMap )
+        ColoredConsoleTarget CreateColoredConsoleTarget( Dictionary<LogLevel, ConsoleColor> colorMap )
         {
             var target = new ColoredConsoleTarget( "coloredConsole" );
             foreach ( var mapping in colorMap )
@@ -41,71 +48,38 @@ namespace SparkliTwizzl.Trioxichor.Logging.Frameworks
                     ForegroundColor = ( ConsoleOutputColor ) mapping.Value
                 } );
             }
-            NLogConfig.AddTarget( target );
-            NLogConfig.AddRuleForAllLevels( target );
+            return target;
         }
 
-        void AddJsonTarget( string filePath )
+        FileTarget CreateJsonTarget( string filePath ) => new FileTarget( "jsonFile" )
         {
-            var target = new FileTarget( "jsonFile" )
-            {
-                FileName = filePath,
-                Layout = "${json:time=${longdate},level=${level:uppercase=true},message=${message}}"
-            };
-            NLogConfig.AddTarget( target );
-            NLogConfig.AddRuleForAllLevels( target );
-        }
+            FileName = filePath,
+            Layout = "${json:time=${longdate},level=${level:uppercase=true},message=${message}}",
+        };
 
-        void AddMonochromeConsoleTarget()
-        {
-            var target = new ConsoleTarget( "console" );
-            NLogConfig.AddTarget( target );
-            NLogConfig.AddRuleForAllLevels( target );
-        }
+        ConsoleTarget CreateMonochromeConsoleTarget() => new ConsoleTarget( "console" );
 
-        void ConfigureMinimumLevel( LogConfiguration config )
+        public void Configure( LogConfiguration config )
         {
-            var nlogMinLevel = config.MinimumLevel switch
-            {
-                LogLevel.Trace => NLog.LogLevel.Trace,
-                LogLevel.Debug => NLog.LogLevel.Debug,
-                LogLevel.Info => NLog.LogLevel.Info,
-                LogLevel.Warning => NLog.LogLevel.Warn,
-                LogLevel.Error => NLog.LogLevel.Error,
-                LogLevel.Fatal => NLog.LogLevel.Fatal,
-                LogLevel.None => NLog.LogLevel.Off,
-                _ => throw new ArgumentOutOfRangeException( nameof( config.MinimumLevel ), $"Unsupported {nameof( NLog.LogLevel )}: {config.MinimumLevel}" )
-            };
-            NLogConfig.LoggingRules.Clear();
-            foreach ( var rule in NLogConfig.LoggingRules )
-            {
-                rule.EnableLoggingForLevels( nlogMinLevel, NLog.LogLevel.Fatal );
-            }
-        }
-
-        void ConfigureTargets( LogConfiguration config )
-        {
+            var nlogConfig = new LoggingConfiguration();
+            var nlogMinimumLevel = ConvertLogLevelToNLog( config.MinimumLevel );
             foreach ( var target in config.Targets )
             {
+                Target nlogTarget;
                 switch ( target.Type )
                 {
                     case LogTargetType.Console:
-                        AddConsoleTarget( config );
+                        nlogTarget = CreateConsoleTarget( config );
                         break;
                     case LogTargetType.Json:
-                        AddJsonTarget( target.FilePath );
+                        nlogTarget = CreateJsonTarget( target.FilePath );
                         break;
                     default:
                         throw new NotSupportedException( $"Unsupported {nameof( LogTargetType )}: {target.Type}" );
                 }
+                nlogConfig.AddRule( nlogMinimumLevel, NLog.LogLevel.Fatal, nlogTarget );
             }
-        }
-
-        public void Configure( LogConfiguration config )
-        {
-            ConfigureMinimumLevel( config );
-            ConfigureTargets( config );
-            LogManager.Configuration = NLogConfig;
+            LogManager.Configuration = nlogConfig;
         }
 
         public void LogDebug( object message ) => throw new NotImplementedException();
