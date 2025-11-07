@@ -1,8 +1,7 @@
 namespace SparkliTwizzl.Trioxichor.Logging.Frameworks;
 
-class SerilogLogger : ILoggingFramework
+public class SerilogLogger : ILogger
 {
-    public void Configure( LogConfiguration config ) => throw new NotImplementedException();
     public void LogDebug( object message ) => throw new NotImplementedException();
     public void LogDebug( object message, params object[] args ) => throw new NotImplementedException();
     public void LogDebug( Exception exception, object message ) => throw new NotImplementedException();

@@ -2,15 +2,11 @@ namespace SparkliTwizzl.Trioxichor.Logging;
 
 public interface ILoggerFactory
 {
-    /// <summary>Configures the factory from a <see cref="LogConfiguration"/>.</summary>
-    /// <param name="config">The configuration to apply.</param>
-    void Configure( LogConfiguration config );
-
-    /// <summary>Creates a new <see cref="ILogger"/> instance.</summary>
+    /// <summary>Creates a new <see cref="ILogger"/> instance from the configured logging framework.</summary>
     /// <remarks>
-    /// <para>All <see cref="ILogger"/> instances will write to the same <see cref="LogTarget"/>s.</para>
+    /// <para>All logger instances will write to the same targets.</para>
     /// </remarks>
     /// <param name="categoryName">Category name for messages produced by the logger.</param>
-    /// <returns>The new <see cref="ILogger"/> instance.</returns>
+    /// <returns>The new logger instance.</returns>
     ILogger CreateLogger( string categoryName );
 }

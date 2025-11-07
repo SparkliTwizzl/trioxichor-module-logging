@@ -1,8 +1,7 @@
 namespace SparkliTwizzl.Trioxichor.Logging.Frameworks;
 
-class LogaryLogger : ILoggingFramework
+public class LogaryLogger : ILogger
 {
-    public void Configure( LogConfiguration config ) => throw new NotImplementedException();
     public void LogDebug( object message ) => throw new NotImplementedException();
     public void LogDebug( object message, params object[] args ) => throw new NotImplementedException();
     public void LogDebug( Exception exception, object message ) => throw new NotImplementedException();

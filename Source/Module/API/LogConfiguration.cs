@@ -1,5 +1,6 @@
 namespace SparkliTwizzl.Trioxichor.Logging;
 
+/// <summary>Specifies a logging configuration to create loggers with.</summary>
 public sealed class LogConfiguration
 {
     /// <summary>Log level coloration to use for console logging, if enabled.</summary>
