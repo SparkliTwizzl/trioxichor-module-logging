@@ -1,11 +1,10 @@
-namespace SparkliTwizzl.Trioxichor.Logging
+namespace SparkliTwizzl.Trioxichor.Logging;
+
+public enum LogFramework
 {
-    public enum LogFramework
-    {
-        Logary,
-        log4net,
-        NLog,
-        Serilog,
-        ZLogger,
-    }
+    Logary,
+    log4net,
+    NLog,
+    Serilog,
+    ZLogger,
 }

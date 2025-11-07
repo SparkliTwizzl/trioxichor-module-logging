@@ -1,22 +1,21 @@
-namespace SparkliTwizzl.Trioxichor.Logging
+namespace SparkliTwizzl.Trioxichor.Logging;
+
+public enum LogTargetType
 {
-    public enum LogTargetType
-    {
-        Console,
-        Json,
-    }
+    Console,
+    Json,
+}
 
-    public sealed class LogTarget
-    {
-        /// <summary>
-        /// Type of log target.
-        /// </summary>
-        public LogTargetType Type { get; set; }
+public sealed class LogTarget
+{
+    /// <summary>
+    /// Type of log target.
+    /// </summary>
+    public LogTargetType Type { get; set; }
 
-        /// <summary>
-        /// File path for file-based log targets.
-        /// Ignored for console log targets.
-        /// </summary>
-        public string FilePath { get; set; } = string.Empty;
-    }
+    /// <summary>
+    /// File path for file-based log targets.
+    /// Ignored for console log targets.
+    /// </summary>
+    public string FilePath { get; set; } = string.Empty;
 }
