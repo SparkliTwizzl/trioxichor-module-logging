@@ -3,8 +3,8 @@
         <!-- Enable central package management, https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management -->
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
-
     <ItemGroup>
-        <PackageVersion Include="NLog" Version="6.0.5"/>
+        <PackageVersion Include="MSTest.TestFramework" Version="4.0.1" />
+        <PackageVersion Include="NLog" Version="6.0.5" />
     </ItemGroup>
 </Project>
