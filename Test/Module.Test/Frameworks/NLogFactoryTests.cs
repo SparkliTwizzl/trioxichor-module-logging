@@ -1,9 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SparkliTwizzl.Trioxichor.Logging.Frameworks;
 using System;
 using System.Collections.Generic;
 
-namespace SparkliTwizzl.Trioxichor.Logging.Test.Frameworks;
+namespace SparkliTwizzl.Trioxichor.Logging.Frameworks.Test;
 
 [TestClass]
 public class NLogFactoryTests
