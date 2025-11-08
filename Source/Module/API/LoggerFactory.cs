@@ -5,9 +5,9 @@ namespace SparkliTwizzl.Trioxichor.Logging;
 
 class LoggerFactory : ILoggerFactory
 {
-    ILoggingFrameworkFactory FrameworkFactory { get; set; }
+    private ILoggingFrameworkFactory frameworkFactory { get; set; }
 
-    ILoggingFrameworkFactory CreateFrameworkFactory( LogConfiguration config ) => config.Framework switch
+    private ILoggingFrameworkFactory CreateFrameworkFactory( LogConfiguration config ) => config.Framework switch
     {
         LogFramework.log4net => new log4netFactory( config ),
         LogFramework.Logary => new LogaryFactory( config ),
@@ -18,11 +18,11 @@ class LoggerFactory : ILoggerFactory
     };
 
     /// <summary>Creates a factory instance using default configuration.</summary>
-    public LoggerFactory() => FrameworkFactory = CreateFrameworkFactory( new LogConfiguration() );
+    public LoggerFactory() => frameworkFactory = CreateFrameworkFactory( new LogConfiguration() );
 
     /// <summary>Creates a factory instance using the provided configuration.</summary>
     /// <param name="config">Configuration to apply.</param>
-    public LoggerFactory( LogConfiguration config ) => FrameworkFactory = CreateFrameworkFactory( config );
+    public LoggerFactory( LogConfiguration config ) => frameworkFactory = CreateFrameworkFactory( config );
 
-    public ILogger CreateLogger( string categoryName ) => FrameworkFactory.CreateLogger( categoryName );
+    public ILogger CreateLogger( string categoryName ) => frameworkFactory.CreateLogger( categoryName );
 }

@@ -1,26 +1,14 @@
 using System.Collections.Generic;
 using NLog;
 using NLog.Targets;
-using SparkliTwizzl.Trioxichor.Logging.Frameworks;
 using Xunit;
 
-namespace SparkliTwizzl.Trioxichor.Logging.Test.Frameworks;
+namespace SparkliTwizzl.Trioxichor.Logging.Frameworks.Test;
 
 public class NLogFactoryTests
 {
     [Fact]
-    public void CreateLogger_ShouldReturnNLogLogger()
-    {
-        var factory = new NLogFactory();
-        var categoryName = "TestCategory";
-        var logger = factory.CreateLogger( categoryName );
-        Assert.NotNull( logger );
-        _ = Assert.IsType<NLogLogger>( logger );
-        Assert.Equal( categoryName, ( ( NLogLogger ) logger ).CategoryName );
-    }
-
-    [Fact]
-    public void Configure_ShouldApplyMinimumLogLevel()
+    public void Constructor_ShouldApplyMinimumLogLevel()
     {
         var config = new LogConfiguration
         {
@@ -38,7 +26,41 @@ public class NLogFactoryTests
     }
 
     [Fact]
-    public void CreateNLogJsonTarget_ShouldCreateValidJsonTarget()
+    public void Constructor_ShouldCreateValidColorlessConsoleTarget()
+    {
+        var target = new LogTarget
+        {
+            Type = LogTargetType.ColorlessConsole
+        };
+        var config = new LogConfiguration
+        {
+            Targets = new List<LogTarget> { target }
+        };
+        _ = new NLogFactory( config );
+        var nlogConfig = LogManager.Configuration;
+        Assert.NotNull( nlogConfig );
+        Assert.Contains( nlogConfig.AllTargets, t => t is ConsoleTarget );
+    }
+
+    [Fact]
+    public void Constructor_ShouldCreateValidColoredConsoleTarget()
+    {
+        var target = new LogTarget
+        {
+            Type = LogTargetType.ColoredConsole
+        };
+        var config = new LogConfiguration
+        {
+            Targets = new List<LogTarget> { target }
+        };
+        _ = new NLogFactory( config );
+        var nlogConfig = LogManager.Configuration;
+        Assert.NotNull( nlogConfig );
+        Assert.Contains( nlogConfig.AllTargets, t => t is ColoredConsoleTarget );
+    }
+
+    [Fact]
+    public void Constructor_ShouldCreateValidJsonTarget()
     {
         var target = new LogTarget
         {
@@ -69,19 +91,13 @@ public class NLogFactoryTests
     }
 
     [Fact]
-    public void CreateNLogConsoleTarget_ShouldCreateValidConsoleTarget()
+    public void CreateLogger_ShouldReturnNLogLogger()
     {
-        var target = new LogTarget
-        {
-            Type = LogTargetType.Console
-        };
-        var config = new LogConfiguration
-        {
-            Targets = new List<LogTarget> { target }
-        };
-        _ = new NLogFactory( config );
-        var nlogConfig = LogManager.Configuration;
-        Assert.NotNull( nlogConfig );
-        Assert.Contains( nlogConfig.AllTargets, t => t is ConsoleTarget );
+        var factory = new NLogFactory();
+        var categoryName = "TestCategory";
+        var logger = factory.CreateLogger( categoryName );
+        Assert.NotNull( logger );
+        _ = Assert.IsType<NLogLogger>( logger );
+        Assert.Equal( categoryName, ( ( NLogLogger ) logger ).CategoryName );
     }
 }

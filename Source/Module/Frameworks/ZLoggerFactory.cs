@@ -4,7 +4,7 @@ namespace SparkliTwizzl.Trioxichor.Logging.Frameworks;
 
 public class ZLoggerFactory : ILoggingFrameworkFactory
 {
-    void Configure( LogConfiguration config ) => throw new NotImplementedException();
+    private void Configure( LogConfiguration config ) => throw new NotImplementedException();
 
     public LogConfiguration Configuration { get; private set; } = new LogConfiguration();
 

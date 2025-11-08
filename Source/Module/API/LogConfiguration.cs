@@ -27,11 +27,15 @@ public sealed class LogConfiguration
     };
 
     /// <summary>Logging framework to use.</summary>
-    /// <remarks>By default, NLog is used.</remarks>
+    /// <remarks>
+    /// <para>By default, NLog is used.</para>
+    /// </remarks>
     public LogFramework Framework { get; set; } = LogFramework.NLog;
 
     /// <summary>Minimum <see cref="LogLevel"/> to enable.</summary>
-    /// <remarks>Messages at this level and above will be written to logs.</remarks>
+    /// <remarks>
+    /// <para>Messages at this level and above will be written to logs.</para>
+    /// </remarks>
     public LogLevel MinimumLevel { get; set; } =
 #if DEBUG
         LogLevel.Debug;
@@ -39,18 +43,12 @@ public sealed class LogConfiguration
         LogLevel.Info;
 #endif
 
-    /// <summary>
-    /// List of log targets to write log messages to.
-    /// </summary>
+    /// <summary>List of log targets to write log messages to.</summary>
     /// <remarks>
-    /// By default, only console logging is enabled.
+    /// <para>By default, only colorless console logging is enabled.</para>
     /// </remarks>
     public List<LogTarget> Targets { get; set; } =
     [
-        new() { Type = LogTargetType.Console },
+        new() { Type = LogTargetType.ColorlessConsole },
     ];
-
-    /// <summary>Whether to enable <see cref="ConsoleColorMap"/> for console logging.</summary>
-    /// <remarks>Enabled by default.</remarks>
-    public bool UsePerLevelColors { get; set; } = true;
 }

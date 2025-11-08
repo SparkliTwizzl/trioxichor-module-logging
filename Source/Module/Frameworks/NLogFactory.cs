@@ -8,7 +8,7 @@ namespace SparkliTwizzl.Trioxichor.Logging.Frameworks;
 
 public class NLogFactory : ILoggingFrameworkFactory
 {
-    NLog.LogLevel ConvertLogLevelToNLog( LogLevel level ) => level switch
+    private NLog.LogLevel ConvertLogLevelToNLog( LogLevel level ) => level switch
     {
         LogLevel.Trace => NLog.LogLevel.Trace,
         LogLevel.Debug => NLog.LogLevel.Debug,
@@ -20,18 +20,21 @@ public class NLogFactory : ILoggingFrameworkFactory
         _ => throw new ArgumentOutOfRangeException( nameof( level ), $"Unsupported {nameof( LogLevel )}: {level}" )
     };
 
-    Target CreateNLogConsoleTarget( LogConfiguration config )
+    private ConsoleTarget CreateNLogColorlessConsoleTarget( string layout )
     {
-        if ( config.UsePerLevelColors && config.ConsoleColorMap != null )
-        {
-            return CreateNLogColoredConsoleTarget( config.ConsoleColorMap );
-        }
-        return CreateNLogMonochromeConsoleTarget();
+        var target = new ConsoleTarget( "console" );
+        target.Layout = layout;
+        return target;
     }
 
-    ColoredConsoleTarget CreateNLogColoredConsoleTarget( Dictionary<LogLevel, ConsoleColor> colorMap )
+    private ColoredConsoleTarget CreateNLogColoredConsoleTarget( string layout, Dictionary<LogLevel, ConsoleColor> colorMap )
     {
+        if ( colorMap == null )
+        {
+            throw new ArgumentNullException( nameof( colorMap ), $"{nameof( colorMap )} cannot be null when creating a colored console target." );
+        }
         var target = new ColoredConsoleTarget( "coloredConsole" );
+        target.Layout = layout;
         foreach ( var mapping in colorMap )
         {
             var nlogLevel = mapping.Key switch
@@ -42,7 +45,7 @@ public class NLogFactory : ILoggingFrameworkFactory
                 LogLevel.Warning => NLog.LogLevel.Warn,
                 LogLevel.Error => NLog.LogLevel.Error,
                 LogLevel.Fatal => NLog.LogLevel.Fatal,
-                _ => throw new ArgumentOutOfRangeException( nameof( mapping.Key ), $"Unsupported LogLevel: {mapping.Key}" )
+                _ => throw new ArgumentOutOfRangeException( nameof( mapping.Key ), $"Unsupported {nameof( LogLevel )}: {mapping.Key}" )
             };
             target.RowHighlightingRules.Add( new ConsoleRowHighlightingRule
             {
@@ -53,22 +56,21 @@ public class NLogFactory : ILoggingFrameworkFactory
         return target;
     }
 
-    FileTarget CreateNLogJsonTarget( string filePath ) => new FileTarget( "jsonFile" )
+    private FileTarget CreateNLogJsonTarget( string filePath ) => new FileTarget( "jsonFile" )
     {
         FileName = filePath,
         Layout = "${json:time=${longdate},level=${level:uppercase=true},message=${message}}",
     };
 
-    ConsoleTarget CreateNLogMonochromeConsoleTarget() => new ConsoleTarget( "console" );
-
-    Target CreateNLogTarget( LogTarget target, LogConfiguration config ) => target.Type switch
+    private Target CreateNLogTarget( LogTarget target, LogConfiguration config ) => target.Type switch
     {
-        LogTargetType.Console => CreateNLogConsoleTarget( config ),
+        LogTargetType.ColorlessConsole => CreateNLogColorlessConsoleTarget( target.Layout ),
+        LogTargetType.ColoredConsole => CreateNLogColoredConsoleTarget( target.Layout, config.ConsoleColorMap ),
         LogTargetType.Json => CreateNLogJsonTarget( target.FilePath ),
         _ => throw new NotSupportedException( $"Unsupported {nameof( LogTargetType )}: {target.Type}" )
     };
 
-    void Configure( LogConfiguration config )
+    private void Configure( LogConfiguration config )
     {
         var nlogMinimumLevel = ConvertLogLevelToNLog( config.MinimumLevel );
         var nlogConfig = new LoggingConfiguration();

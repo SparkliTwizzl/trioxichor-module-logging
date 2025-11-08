@@ -6,7 +6,7 @@ public class NLogLogger : ILogger
 {
     NLog.Logger Logger { get; set; }
 
-    public string CategoryName { get; }
+    public string CategoryName { get; private set; } = string.Empty;
 
     public NLogLogger( NLog.Logger logger )
     {
