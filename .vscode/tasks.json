@@ -12,6 +12,16 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "build Module.Test",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "build",
+                "${workspaceFolder}/Test/Module.Test/Module.Test.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
             "label": "test Module.Test",
             "command": "dotnet",
             "type": "shell",
@@ -20,14 +30,19 @@
                 "${workspaceFolder}/Test/Module.Test/Module.Test.csproj"
             ],
             "problemMatcher": "$msCompile",
-            "dependsOn": "Build Module.Logging"
+            "dependsOn": "build Module.Test"
         },
         {
-            "label": "build and test",
+            "label": "build",
             "dependsOn": [
                 "build Module",
-                "test Module.Test"
-            ]
+                "build Module.Test"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
