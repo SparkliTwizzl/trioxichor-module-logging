@@ -10,21 +10,21 @@ public interface ILogger
     /// Log a message with level <see cref="LogLevel.Debug"/>.
     /// </summary>
     /// <param name="message">Message to log.</param>
-    void LogDebug( string message );
+    void Debug( string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Debug"/>.
     /// </summary>
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="message">Message to log.</param>
-    void LogDebug( string message, params object[] args );
+    void Debug( string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Debug"/>.
     /// </summary>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogDebug( Exception exception, string message );
+    void Debug( Exception exception, string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Debug"/>.
@@ -32,7 +32,7 @@ public interface ILogger
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogDebug( Exception exception, string message, params object[] args );
+    void Debug( Exception exception, string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Debug"/>.
@@ -41,27 +41,27 @@ public interface ILogger
     /// Message factory is only invoked if the message is actually logged, which can improve performance when the log level is disabled.
     /// </remarks>
     /// <param name="messageFactory">Function to generate the message to log.</param>
-    void LogDebug( Func<string> messageFactory );
+    void Debug( Func<string> messageFactory );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Error"/>.
     /// </summary>
     /// <param name="message">Message to log.</param>
-    void LogError( string message );
+    void Error( string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Error"/>.
     /// </summary>
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="message">Message to log.</param>
-    void LogError( string message, params object[] args );
+    void Error( string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Error"/>.
     /// </summary>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogError( Exception exception, string message );
+    void Error( Exception exception, string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Error"/>.
@@ -69,7 +69,7 @@ public interface ILogger
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogError( Exception exception, string message, params object[] args );
+    void Error( Exception exception, string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Error"/>.
@@ -78,27 +78,27 @@ public interface ILogger
     /// Message factory is only invoked if the message is actually logged, which can improve performance when the log level is disabled.
     /// </remarks>
     /// <param name="messageFactory">Function to generate the message to log.</param>
-    void LogError( Func<string> messageFactory );
+    void Error( Func<string> messageFactory );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Fatal"/>.
     /// </summary>
     /// <param name="message">Message to log.</param>
-    void LogFatal( string message );
+    void Fatal( string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Fatal"/>.
     /// </summary>
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="message">Message to log.</param>
-    void LogFatal( string message, params object[] args );
+    void Fatal( string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Fatal"/>.
     /// </summary>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogFatal( Exception exception, string message );
+    void Fatal( Exception exception, string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Fatal"/>.
@@ -106,7 +106,7 @@ public interface ILogger
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogFatal( Exception exception, string message, params object[] args );
+    void Fatal( Exception exception, string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Fatal"/>.
@@ -115,27 +115,27 @@ public interface ILogger
     /// Message factory is only invoked if the message is actually logged, which can improve performance when the log level is disabled.
     /// </remarks>
     /// <param name="messageFactory">Function to generate the message to log.</param>
-    void LogFatal( Func<string> messageFactory );
+    void Fatal( Func<string> messageFactory );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Info"/>.
     /// </summary>
     /// <param name="message">Message to log.</param>
-    void LogInfo( string message );
+    void Info( string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Info"/>.
     /// </summary>
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="message">Message to log.</param>
-    void LogInfo( string message, params object[] args );
+    void Info( string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Info"/>.
     /// </summary>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogInfo( Exception exception, string message );
+    void Info( Exception exception, string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Info"/>.
@@ -143,7 +143,7 @@ public interface ILogger
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogInfo( Exception exception, string message, params object[] args );
+    void Info( Exception exception, string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Info"/>.
@@ -152,27 +152,27 @@ public interface ILogger
     /// Message factory is only invoked if the message is actually logged, which can improve performance when the log level is disabled.
     /// </remarks>
     /// <param name="messageFactory">Function to generate the message to log.</param>
-    void LogInfo( Func<string> messageFactory );
+    void Info( Func<string> messageFactory );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Trace"/>.
     /// </summary>
     /// <param name="message">Message to log.</param>
-    void LogTrace( string message );
+    void Trace( string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Trace"/>.
     /// </summary>
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="message">Message to log.</param>
-    void LogTrace( string message, params object[] args );
+    void Trace( string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Trace"/>.
     /// </summary>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogTrace( Exception exception, string message );
+    void Trace( Exception exception, string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Trace"/>.
@@ -180,7 +180,7 @@ public interface ILogger
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogTrace( Exception exception, string message, params object[] args );
+    void Trace( Exception exception, string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Trace"/>.
@@ -189,27 +189,27 @@ public interface ILogger
     /// Message factory is only invoked if the message is actually logged, which can improve performance when the log level is disabled.
     /// </remarks>
     /// <param name="messageFactory">Function to generate the message to log.</param>
-    void LogTrace( Func<string> messageFactory );
+    void Trace( Func<string> messageFactory );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Warning"/>.
     /// </summary>
     /// <param name="message">Message to log.</param>
-    void LogWarning( string message );
+    void Warning( string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Warning"/>.
     /// </summary>
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="message">Message to log.</param>
-    void LogWarning( string message, params object[] args );
+    void Warning( string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Warning"/>.
     /// </summary>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogWarning( Exception exception, string message );
+    void Warning( Exception exception, string message );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Warning"/>.
@@ -217,7 +217,7 @@ public interface ILogger
     /// <param name="args">List of arguments to format the message with.</param>
     /// <param name="exception">Exception to log.</param>
     /// <param name="message">Message to log.</param>
-    void LogWarning( Exception exception, string message, params object[] args );
+    void Warning( Exception exception, string message, params object[] args );
 
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Warning"/>.
@@ -226,5 +226,5 @@ public interface ILogger
     /// Message factory is only invoked if the message is actually logged, which can improve performance when the log level is disabled.
     /// </remarks>
     /// <param name="messageFactory">Function to generate the message to log.</param>
-    void LogWarning( Func<string> messageFactory );
+    void Warning( Func<string> messageFactory );
 }
