@@ -1,4 +1,5 @@
 using SparkliTwizzl.Trioxichor.Logging.Frameworks;
+using System;
 
 namespace SparkliTwizzl.Trioxichor.Logging;
 

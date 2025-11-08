@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace SparkliTwizzl.Trioxichor.Logging;
 
 /// <summary>Specifies a logging configuration to create loggers with.</summary>
@@ -42,10 +45,10 @@ public sealed class LogConfiguration
     /// <remarks>
     /// By default, only console logging is enabled.
     /// </remarks>
-    public List<LogTarget> Targets { get; set; } = new()
-    {
+    public List<LogTarget> Targets { get; set; } =
+    [
         new() { Type = LogTargetType.Console },
-    };
+    ];
 
     /// <summary>Whether to enable <see cref="ConsoleColorMap"/> for console logging.</summary>
     /// <remarks>Enabled by default.</remarks>

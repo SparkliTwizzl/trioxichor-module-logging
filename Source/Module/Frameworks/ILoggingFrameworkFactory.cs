@@ -2,6 +2,9 @@ namespace SparkliTwizzl.Trioxichor.Logging.Frameworks;
 
 public interface ILoggingFrameworkFactory
 {
+    /// <summary>Gets the logging configuration applied to the framework.</summary>
+    LogConfiguration Configuration { get; }
+
     /// <summary>Creates a new <see cref="ILogger"/> instance from the framework's logger factory.</summary>
     /// <remarks>
     /// <para>All <see cref="ILogger"/> instances will write to the same <see cref="LogTarget"/>s.</para>

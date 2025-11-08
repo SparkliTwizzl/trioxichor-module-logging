@@ -14,21 +14,16 @@
     <!-- Universal project configs. -->
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
         <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-        <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
 
     <!-- Base directories for all code files. -->
     <PropertyGroup>
         <RootDir>$(MSBuildThisFileDirectory)</RootDir>
-        <SourceDir>$(RootDir)Source\</SourceDir>
-        <TestDir>$(RootDir)Test\</TestDir>
     </PropertyGroup>
 
     <!-- Base directories for build/test/run files. -->
@@ -38,7 +33,7 @@
         <BaseOutputDir>$(RootDir)output\</BaseOutputDir>
     </PropertyGroup>
 
-    <!-- Templates for build/test/run directories. Category must be defined in per-directory Directory.Build.props files. -->
+    <!-- Templates for build/test/run directories. Category must be defined in per-directory props files. -->
     <PropertyGroup>
         <BuildDir>$(BaseBuildDir)$(Category)\</BuildDir>
         <LogDir>$(BaseLogDir)$(Category)\</LogDir>

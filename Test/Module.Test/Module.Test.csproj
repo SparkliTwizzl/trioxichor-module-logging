@@ -1,5 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
+        <ProjectReference Include="..\..\Source\Module\Module.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="MSTest.TestFramework"/>
+        <PackageReference Include="NLog"/>
     </ItemGroup>
 </Project>

@@ -1,10 +1,18 @@
+using System;
+
 namespace SparkliTwizzl.Trioxichor.Logging.Frameworks;
 
 public class NLogLogger : ILogger
 {
     NLog.Logger Logger { get; set; }
 
-    public NLogLogger( NLog.Logger logger ) => Logger = logger;
+    public string CategoryName { get; }
+
+    public NLogLogger( NLog.Logger logger )
+    {
+        Logger = logger;
+        CategoryName = logger.Name;
+    }
 
     public void Debug( string message ) => Logger.Debug( message );
 

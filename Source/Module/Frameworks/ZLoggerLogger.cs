@@ -1,7 +1,10 @@
+using System;
+
 namespace SparkliTwizzl.Trioxichor.Logging.Frameworks;
 
 public class ZLoggerLogger : ILogger
 {
+    public string CategoryName => throw new NotImplementedException();
 
     public void Debug( string message ) => throw new NotImplementedException();
 

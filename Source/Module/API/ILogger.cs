@@ -1,3 +1,5 @@
+using System;
+
 namespace SparkliTwizzl.Trioxichor.Logging;
 
 /// <summary>Simple logging wrapper interface.</summary>
@@ -6,6 +8,9 @@ namespace SparkliTwizzl.Trioxichor.Logging;
 /// </remarks>
 public interface ILogger
 {
+    /// <summary>Category name of the logger.</summary>
+    string CategoryName { get; }
+
     /// <summary>
     /// Log a message with level <see cref="LogLevel.Debug"/>.
     /// </summary>

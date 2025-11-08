@@ -1,6 +1,8 @@
 using NLog;
 using NLog.Config;
 using NLog.Targets;
+using System;
+using System.Collections.Generic;
 
 namespace SparkliTwizzl.Trioxichor.Logging.Frameworks;
 
@@ -78,10 +80,19 @@ public class NLogFactory : ILoggingFrameworkFactory
         LogManager.Configuration = nlogConfig;
     }
 
+
+    public LogConfiguration Configuration { get; private set; } = new LogConfiguration();
+
     /// <summary>Creates a new factory instance using default configuration.</summary>
+    /// <remarks>
+    /// <para>The framework specified by the configuration is ignored, because it is not relevant at this level.</para>
+    /// </remarks>
     public NLogFactory() => Configure( new LogConfiguration() );
 
     /// <summary>Creates a new factory instance using the provided configuration.</summary>
+    /// <remarks>
+    /// <para>The framework specified by the configuration is ignored, because it is not relevant at this level.</para>
+    /// </remarks>
     /// <param name="config">Configuration to apply.</param>
     public NLogFactory( LogConfiguration config ) => Configure( config );
 
