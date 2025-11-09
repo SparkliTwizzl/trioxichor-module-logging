@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using NLog;
 using NLog.Targets;
 using Xunit;
@@ -47,16 +49,30 @@ public class NLogFactoryTests
     {
         var target = new LogTarget
         {
-            Type = LogTargetType.ColoredConsole
+            Type = LogTargetType.ColoredConsole,
         };
         var config = new LogConfiguration
         {
-            Targets = new List<LogTarget> { target }
+            ConsoleColorMap = new Dictionary<LogLevel, ConsoleColor>
+            {
+                { LogLevel.Info, ConsoleColor.Green },
+                { LogLevel.Warning, ConsoleColor.Yellow },
+                { LogLevel.Error, ConsoleColor.Red },
+            },
+            Targets = new List<LogTarget> { target },
         };
         _ = new NLogFactory( config );
         var nlogConfig = LogManager.Configuration;
         Assert.NotNull( nlogConfig );
         Assert.Contains( nlogConfig.AllTargets, t => t is ColoredConsoleTarget );
+        var coloredConsoleTarget = nlogConfig.AllTargets.OfType<ColoredConsoleTarget>().FirstOrDefault();
+        Assert.NotNull( coloredConsoleTarget );
+        if ( coloredConsoleTarget != null )
+        {
+            Assert.Contains( coloredConsoleTarget.RowHighlightingRules, rule => rule.Condition!.ToString().Contains( "level == 'Info'" ) && rule.ForegroundColor.ToString() == "Green" );
+            Assert.Contains( coloredConsoleTarget.RowHighlightingRules, rule => rule.Condition!.ToString().Contains( "level == 'Warn'" ) && rule.ForegroundColor.ToString() == "Yellow" );
+            Assert.Contains( coloredConsoleTarget.RowHighlightingRules, rule => rule.Condition!.ToString().Contains( "level == 'Error'" ) && rule.ForegroundColor.ToString() == "Red" );
+        }
     }
 
     [Fact]
