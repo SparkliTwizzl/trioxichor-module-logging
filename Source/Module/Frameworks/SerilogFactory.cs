@@ -6,6 +6,7 @@ public class SerilogFactory : ILoggingFrameworkFactory
 {
     private void Configure( LogConfiguration config ) => throw new NotImplementedException();
 
+
     public LogConfiguration Configuration { get; private set; } = new LogConfiguration();
 
     /// <summary>Creates a new factory instance using default configuration.</summary>

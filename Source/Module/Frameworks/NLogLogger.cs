@@ -1,14 +1,16 @@
+using NLog;
 using System;
 
 namespace SparkliTwizzl.Trioxichor.Logging.Frameworks;
 
 public class NLogLogger : ILogger
 {
-    NLog.Logger Logger { get; set; }
+    private Logger Logger { get; set; }
+
 
     public string CategoryName { get; private set; } = string.Empty;
 
-    public NLogLogger( NLog.Logger logger )
+    public NLogLogger( Logger logger )
     {
         Logger = logger;
         CategoryName = logger.Name;
@@ -22,7 +24,7 @@ public class NLogLogger : ILogger
 
     public void Debug( Exception exception, string message, params object[] args ) => Logger.Debug( exception, message, args );
 
-    public void Debug( Func<string> messageFactory ) => Logger.Debug( messageFactory );
+    public void Debug( Func<string> messageFactory ) => Logger.Debug( new LogMessageGenerator( new LogMessageGenerator( messageFactory ) ) );
 
     public void Error( string message ) => Logger.Error( message );
 
@@ -32,7 +34,7 @@ public class NLogLogger : ILogger
 
     public void Error( Exception exception, string message, params object[] args ) => Logger.Error( exception, message, args );
 
-    public void Error( Func<string> messageFactory ) => Logger.Error( messageFactory );
+    public void Error( Func<string> messageFactory ) => Logger.Error( new LogMessageGenerator( messageFactory ) );
 
     public void Fatal( string message ) => Logger.Fatal( message );
 
@@ -42,7 +44,7 @@ public class NLogLogger : ILogger
 
     public void Fatal( Exception exception, string message, params object[] args ) => Logger.Fatal( exception, message, args );
 
-    public void Fatal( Func<string> messageFactory ) => Logger.Fatal( messageFactory );
+    public void Fatal( Func<string> messageFactory ) => Logger.Fatal( new LogMessageGenerator( messageFactory ) );
 
     public void Info( string message ) => Logger.Info( message );
 
@@ -52,7 +54,7 @@ public class NLogLogger : ILogger
 
     public void Info( Exception exception, string message, params object[] args ) => Logger.Info( exception, message, args );
 
-    public void Info( Func<string> messageFactory ) => Logger.Info( messageFactory );
+    public void Info( Func<string> messageFactory ) => Logger.Info( new LogMessageGenerator( messageFactory ) );
 
     public void Trace( string message ) => Logger.Trace( message );
 
@@ -62,7 +64,7 @@ public class NLogLogger : ILogger
 
     public void Trace( Exception exception, string message, params object[] args ) => Logger.Trace( exception, message, args );
 
-    public void Trace( Func<string> messageFactory ) => Logger.Trace( messageFactory );
+    public void Trace( Func<string> messageFactory ) => Logger.Trace( new LogMessageGenerator( messageFactory ) );
 
     public void Warning( string message ) => Logger.Warn( message );
 
@@ -72,5 +74,5 @@ public class NLogLogger : ILogger
 
     public void Warning( Exception exception, string message, params object[] args ) => Logger.Warn( exception, message, args );
 
-    public void Warning( Func<string> messageFactory ) => Logger.Warn( messageFactory );
+    public void Warning( Func<string> messageFactory ) => Logger.Warn( new LogMessageGenerator( messageFactory ) );
 }

@@ -32,6 +32,13 @@ public sealed class LogConfiguration
     /// </remarks>
     public LogFramework Framework { get; set; } = LogFramework.NLog;
 
+    /// <summary>Layout format for log messages.</summary>
+    /// <remarks>
+    /// <para>Defaults to a standard layout if not specified.</para>
+    /// <para>Ignored for JSON file targets.</para>
+    /// </remarks>
+    public string Layout { get; set; } = "${longdate} | ${level:uppercase=true} | ${message} | ${exception:format=ToString}";
+
     /// <summary>Minimum <see cref="LogLevel"/> to enable.</summary>
     /// <remarks>
     /// <para>Messages at this level and above will be written to logs.</para>

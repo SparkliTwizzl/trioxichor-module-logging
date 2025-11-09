@@ -64,8 +64,8 @@ public class NLogFactory : ILoggingFrameworkFactory
 
     private Target CreateNLogTarget( LogTarget target, LogConfiguration config ) => target.Type switch
     {
-        LogTargetType.ColorlessConsole => CreateNLogColorlessConsoleTarget( target.Layout ),
-        LogTargetType.ColoredConsole => CreateNLogColoredConsoleTarget( target.Layout, config.ConsoleColorMap ),
+        LogTargetType.ColorlessConsole => CreateNLogColorlessConsoleTarget( config.Layout ),
+        LogTargetType.ColoredConsole => CreateNLogColoredConsoleTarget( config.Layout, config.ConsoleColorMap ),
         LogTargetType.Json => CreateNLogJsonTarget( target.FilePath ),
         _ => throw new NotSupportedException( $"Unsupported {nameof( LogTargetType )}: {target.Type}" )
     };

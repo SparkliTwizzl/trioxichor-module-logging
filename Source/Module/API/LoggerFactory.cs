@@ -17,6 +17,7 @@ class LoggerFactory : ILoggerFactory
         _ => throw new NotSupportedException()
     };
 
+
     /// <summary>Creates a factory instance using default configuration.</summary>
     public LoggerFactory() => frameworkFactory = CreateFrameworkFactory( new LogConfiguration() );
 

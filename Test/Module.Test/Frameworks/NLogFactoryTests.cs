@@ -28,6 +28,30 @@ public class NLogFactoryTests
     }
 
     [Fact]
+    public void Construcor_ShouldApplyLayoutFormat()
+    {
+        var layoutFormat = "${longdate}|${level}|${message}";
+        var target = new LogTarget
+        {
+            Type = LogTargetType.ColorlessConsole,
+        };
+        var config = new LogConfiguration
+        {
+            Layout = layoutFormat,
+            Targets = new List<LogTarget> { target }
+        };
+        _ = new NLogFactory( config );
+        var nlogConfig = LogManager.Configuration;
+        Assert.NotNull( nlogConfig );
+        var consoleTarget = nlogConfig.AllTargets.OfType<ConsoleTarget>().FirstOrDefault();
+        Assert.NotNull( consoleTarget );
+        if ( consoleTarget != null )
+        {
+            Assert.Equal( layoutFormat, consoleTarget.Layout.ToString() );
+        }
+    }
+
+    [Fact]
     public void Constructor_ShouldCreateValidColorlessConsoleTarget()
     {
         var target = new LogTarget
