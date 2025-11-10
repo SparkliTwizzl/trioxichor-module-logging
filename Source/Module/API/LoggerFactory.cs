@@ -3,7 +3,7 @@ using System;
 
 namespace SparkliTwizzl.Trioxichor.Logging;
 
-class LoggerFactory : ILoggerFactory
+public sealed class LoggerFactory : ILoggerFactory
 {
     private ILoggingFrameworkFactory frameworkFactory { get; set; }
 
