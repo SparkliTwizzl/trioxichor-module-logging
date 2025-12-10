@@ -32,6 +32,13 @@ public sealed class LogConfiguration
     /// </remarks>
     public LogFramework Framework { get; set; } = LogFramework.NLog;
 
+    /// <summary>Layout format for JSON log files.</summary>
+    /// <remarks>
+    /// <para>Defaults to a standard JSON layout if not specified.</para>
+    /// <para>Ignored for non-JSON targets.</para>
+    /// </remarks>
+    public string JsonLayout { get; set; } = "${json:time=${longdate},level=${level:uppercase=true},message=${message}}";
+
     /// <summary>Layout format for log messages.</summary>
     /// <remarks>
     /// <para>Defaults to a standard layout if not specified.</para>

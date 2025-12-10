@@ -1,8 +1,8 @@
+using NLog;
+using NLog.Targets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NLog;
-using NLog.Targets;
 using Xunit;
 
 namespace SparkliTwizzl.Trioxichor.Logging.Frameworks.Test;
@@ -16,7 +16,7 @@ public class NLogFactoryTests
         {
             MinimumLevel = LogLevel.Warning
         };
-        var factory = new NLogFactory( config );
+        _ = new NLogFactory( config );
         var nlogConfig = LogManager.Configuration;
         Assert.NotNull( nlogConfig );
         Assert.DoesNotContain( nlogConfig.LoggingRules, rule => rule.Levels.Contains( NLog.LogLevel.Trace ) );
@@ -28,7 +28,7 @@ public class NLogFactoryTests
     }
 
     [Fact]
-    public void Construcor_ShouldApplyLayoutFormat()
+    public void Constructor_ShouldApplyLayoutFormat()
     {
         var layoutFormat = "${longdate}|${level}|${message}";
         var target = new LogTarget
@@ -45,7 +45,7 @@ public class NLogFactoryTests
         Assert.NotNull( nlogConfig );
         var consoleTarget = nlogConfig.AllTargets.OfType<ConsoleTarget>().FirstOrDefault();
         Assert.NotNull( consoleTarget );
-        if ( consoleTarget != null )
+        if ( consoleTarget is not null )
         {
             Assert.Equal( layoutFormat, consoleTarget.Layout.ToString() );
         }
@@ -91,12 +91,9 @@ public class NLogFactoryTests
         Assert.Contains( nlogConfig.AllTargets, t => t is ColoredConsoleTarget );
         var coloredConsoleTarget = nlogConfig.AllTargets.OfType<ColoredConsoleTarget>().FirstOrDefault();
         Assert.NotNull( coloredConsoleTarget );
-        if ( coloredConsoleTarget != null )
-        {
-            Assert.Contains( coloredConsoleTarget.RowHighlightingRules, rule => rule.Condition!.ToString().Contains( "level == 'Info'" ) && rule.ForegroundColor.ToString() == "Green" );
-            Assert.Contains( coloredConsoleTarget.RowHighlightingRules, rule => rule.Condition!.ToString().Contains( "level == 'Warn'" ) && rule.ForegroundColor.ToString() == "Yellow" );
-            Assert.Contains( coloredConsoleTarget.RowHighlightingRules, rule => rule.Condition!.ToString().Contains( "level == 'Error'" ) && rule.ForegroundColor.ToString() == "Red" );
-        }
+        Assert.Contains( coloredConsoleTarget.RowHighlightingRules, rule => rule.Condition!.ToString().Contains( "level == 'Info'" ) && rule.ForegroundColor.ToString() == "Green" );
+        Assert.Contains( coloredConsoleTarget.RowHighlightingRules, rule => rule.Condition!.ToString().Contains( "level == 'Warn'" ) && rule.ForegroundColor.ToString() == "Yellow" );
+        Assert.Contains( coloredConsoleTarget.RowHighlightingRules, rule => rule.Condition!.ToString().Contains( "level == 'Error'" ) && rule.ForegroundColor.ToString() == "Red" );
     }
 
     [Fact]
@@ -114,20 +111,10 @@ public class NLogFactoryTests
         _ = new NLogFactory( config );
         var nlogConfig = LogManager.Configuration;
         Assert.NotNull( nlogConfig );
-        var allTargets = nlogConfig?.AllTargets;
-        Assert.NotNull( allTargets );
-        if ( allTargets != null )
-        {
-            foreach ( var t in allTargets )
-            {
-                Assert.NotNull( t );
-                if ( t is FileTarget fileTarget )
-                {
-                    Assert.NotNull( fileTarget.FileName );
-                    Assert.Contains( "log.json", fileTarget.FileName.ToString() );
-                }
-            }
-        }
+        var fileTarget = nlogConfig?.AllTargets.OfType<FileTarget>().FirstOrDefault();
+        Assert.NotNull( fileTarget );
+        Assert.NotNull( fileTarget.FileName );
+        Assert.Contains( target.FilePath, fileTarget.FileName.ToString() );
     }
 
     [Fact]

@@ -8,6 +8,22 @@ namespace SparkliTwizzl.Trioxichor.Logging.Frameworks;
 
 public class NLogFactory : ILoggingFrameworkFactory
 {
+    private void Configure( LogConfiguration config )
+    {
+        if ( config is null )
+        {
+            throw new ArgumentNullException( nameof( config ), $"{nameof( config )} cannot be null." );
+        }
+        var nlogMinimumLevel = ConvertLogLevelToNLog( config.MinimumLevel );
+        var nlogConfig = new LoggingConfiguration();
+        foreach ( var target in config.Targets )
+        {
+            var nlogTarget = CreateNLogTarget( target, config );
+            nlogConfig.AddRule( nlogMinimumLevel, NLog.LogLevel.Fatal, nlogTarget );
+        }
+        LogManager.Configuration = nlogConfig;
+    }
+
     private NLog.LogLevel ConvertLogLevelToNLog( LogLevel level ) => level switch
     {
         LogLevel.Trace => NLog.LogLevel.Trace,
@@ -22,65 +38,48 @@ public class NLogFactory : ILoggingFrameworkFactory
 
     private ConsoleTarget CreateNLogColorlessConsoleTarget( string layout )
     {
-        var target = new ConsoleTarget( "console" );
-        target.Layout = layout;
+        var target = new ConsoleTarget( "console" )
+        {
+            Layout = layout,
+        };
         return target;
     }
 
     private ColoredConsoleTarget CreateNLogColoredConsoleTarget( string layout, Dictionary<LogLevel, ConsoleColor> colorMap )
     {
-        if ( colorMap == null )
+        if ( colorMap is null )
         {
             throw new ArgumentNullException( nameof( colorMap ), $"{nameof( colorMap )} cannot be null when creating a colored console target." );
         }
-        var target = new ColoredConsoleTarget( "coloredConsole" );
-        target.Layout = layout;
+        var target = new ColoredConsoleTarget( "coloredConsole" )
+        {
+            Layout = layout,
+        };
         foreach ( var mapping in colorMap )
         {
-            var nlogLevel = mapping.Key switch
-            {
-                LogLevel.Trace => NLog.LogLevel.Trace,
-                LogLevel.Debug => NLog.LogLevel.Debug,
-                LogLevel.Info => NLog.LogLevel.Info,
-                LogLevel.Warning => NLog.LogLevel.Warn,
-                LogLevel.Error => NLog.LogLevel.Error,
-                LogLevel.Fatal => NLog.LogLevel.Fatal,
-                _ => throw new ArgumentOutOfRangeException( nameof( mapping.Key ), $"Unsupported {nameof( LogLevel )}: {mapping.Key}" )
-            };
+            var nlogLevel = ConvertLogLevelToNLog( mapping.Key );
             target.RowHighlightingRules.Add( new ConsoleRowHighlightingRule
             {
                 Condition = $"level == '{nlogLevel.Name}'",
-                ForegroundColor = ( ConsoleOutputColor ) mapping.Value
+                ForegroundColor = ( ConsoleOutputColor ) mapping.Value,
             } );
         }
         return target;
     }
 
-    private FileTarget CreateNLogJsonTarget( string filePath ) => new FileTarget( "jsonFile" )
+    private FileTarget CreateNLogJsonTarget( string filePath, string layout ) => new FileTarget( "jsonFile" )
     {
         FileName = filePath,
-        Layout = "${json:time=${longdate},level=${level:uppercase=true},message=${message}}",
+        Layout = layout,
     };
 
     private Target CreateNLogTarget( LogTarget target, LogConfiguration config ) => target.Type switch
     {
         LogTargetType.ColorlessConsole => CreateNLogColorlessConsoleTarget( config.Layout ),
         LogTargetType.ColoredConsole => CreateNLogColoredConsoleTarget( config.Layout, config.ConsoleColorMap ),
-        LogTargetType.Json => CreateNLogJsonTarget( target.FilePath ),
+        LogTargetType.Json => CreateNLogJsonTarget( target.FilePath, config.JsonLayout ),
         _ => throw new NotSupportedException( $"Unsupported {nameof( LogTargetType )}: {target.Type}" )
     };
-
-    private void Configure( LogConfiguration config )
-    {
-        var nlogMinimumLevel = ConvertLogLevelToNLog( config.MinimumLevel );
-        var nlogConfig = new LoggingConfiguration();
-        foreach ( var target in config.Targets )
-        {
-            Target nlogTarget = CreateNLogTarget( target, config );
-            nlogConfig.AddRule( nlogMinimumLevel, NLog.LogLevel.Fatal, nlogTarget );
-        }
-        LogManager.Configuration = nlogConfig;
-    }
 
 
     public LogConfiguration Configuration { get; private set; } = new LogConfiguration();

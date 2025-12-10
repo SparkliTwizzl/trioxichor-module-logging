@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <PackageReference Include="NLog"/>
+        <PackageReference Include="log4net" />
+        <PackageReference Include="NLog" />
     </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@ public class NLogLogger : ILogger
 
     public void Debug( Exception exception, string message, params object[] args ) => Logger.Debug( exception, message, args );
 
-    public void Debug( Func<string> messageFactory ) => Logger.Debug( new LogMessageGenerator( new LogMessageGenerator( messageFactory ) ) );
+    public void Debug( Func<string> messageFactory ) => Logger.Debug( new LogMessageGenerator( messageFactory ) );
 
     public void Error( string message ) => Logger.Error( message );
 
