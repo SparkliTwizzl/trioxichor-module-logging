@@ -47,9 +47,9 @@ public class NLogFactory : ILoggingFrameworkFactory
 
     private ColoredConsoleTarget CreateNLogColoredConsoleTarget( string layout, Dictionary<LogLevel, ConsoleColor> colorMap )
     {
-        if ( colorMap is null )
+        if ( colorMap is null || colorMap.Count == 0 )
         {
-            throw new ArgumentNullException( nameof( colorMap ), $"{nameof( colorMap )} cannot be null when creating a colored console target." );
+            throw new ArgumentNullException( nameof( colorMap ), $"{nameof( colorMap )} cannot be null or empty when creating a colored console target." );
         }
         var target = new ColoredConsoleTarget( "coloredConsole" )
         {

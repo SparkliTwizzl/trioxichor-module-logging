@@ -1,4 +1,3 @@
-using Moq;
 using NLog;
 using NLog.Config;
 using NLog.Targets;

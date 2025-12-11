@@ -1,7 +1,7 @@
 using log4net;
 using log4net.Appender;
-using log4net.Config;
 using log4net.Layout;
+using log4net.Repository.Hierarchy;
 using System;
 using System.Collections.Generic;
 
@@ -15,16 +15,18 @@ public class log4netFactory : ILoggingFrameworkFactory
         {
             throw new ArgumentNullException( nameof( config ), $"{nameof( config )} cannot be null." );
         }
-        var log4netMinimumLevel = ConvertLogLevelToLog4net( config.MinimumLevel );
-        var log4netConfig = new log4net.Repository.Hierarchy.Hierarchy();
+        config.Layout = ConvertLayoutToLog4netPattern( config.Layout );
+        var hierarchy = ( Hierarchy ) LogManager.GetRepository();
+        var patternLayout = new PatternLayout();
+        patternLayout.ConversionPattern = config.Layout;
+        patternLayout.ActivateOptions();
         foreach ( var target in config.Targets )
         {
             var appender = CreateLog4netTarget( target, config );
-            log4netConfig.Root.AddAppender( appender );
+            hierarchy.Root.AddAppender( appender );
         }
-        log4netConfig.Root.Level = log4netMinimumLevel;
-        log4netConfig.Configured = true;
-        _ = BasicConfigurator.Configure( log4netConfig );
+        hierarchy.Root.Level = ConvertLogLevelToLog4net( config.MinimumLevel );
+        hierarchy.Configured = true;
     }
 
     private ColoredConsoleAppender.Colors ConvertConsoleColorToLog4netColor( ConsoleColor color ) => color switch
@@ -48,6 +50,19 @@ public class log4netFactory : ILoggingFrameworkFactory
         _ => throw new ArgumentOutOfRangeException( nameof( color ), $"Unsupported {nameof( ConsoleColor )}: {color}" )
     };
 
+    private string ConvertLayoutToLog4netPattern( string layout )
+    {
+        if ( string.IsNullOrWhiteSpace( layout ) )
+        {
+            throw new ArgumentException( $"Layout cannot be null or empty.", nameof( layout ) );
+        }
+        var log4netPattern = layout
+            .Replace( "}", "" )
+            .Replace( "${", "%" )
+            + "%newline";
+        return log4netPattern;
+    }
+
     private log4net.Core.Level ConvertLogLevelToLog4net( LogLevel level ) => level switch
     {
         LogLevel.Trace => log4net.Core.Level.Trace,
@@ -66,14 +81,15 @@ public class log4netFactory : ILoggingFrameworkFactory
         {
             Layout = new PatternLayout( layout ),
         };
+        appender.ActivateOptions();
         return appender;
     }
 
     private IAppender CreateLog4netColoredConsoleTarget( string layout, Dictionary<LogLevel, ConsoleColor> colorMap )
     {
-        if ( colorMap is null )
+        if ( colorMap is null || colorMap.Count == 0 )
         {
-            throw new ArgumentNullException( nameof( colorMap ), $"{nameof( colorMap )} cannot be null when creating a colored console target." );
+            throw new ArgumentNullException( nameof( colorMap ), $"{nameof( colorMap )} cannot be null or empty when creating a colored console target." );
         }
         var appender = new ColoredConsoleAppender
         {
@@ -88,14 +104,24 @@ public class log4netFactory : ILoggingFrameworkFactory
                 ForeColor = ConvertConsoleColorToLog4netColor( mapping.Value ),
             } );
         }
+        appender.ActivateOptions();
         return appender;
     }
 
-    private IAppender CreateLog4netJsonTarget( string filePath, string layout ) => new FileAppender
+    private IAppender CreateLog4netJsonTarget( string filePath, string layout )
     {
-        File = filePath,
-        Layout = new PatternLayout( layout ),
-    };
+        if ( string.IsNullOrWhiteSpace( filePath ) )
+        {
+            throw new ArgumentException( $"File path cannot be null or empty.", nameof( filePath ) );
+        }
+        var appender = new FileAppender
+        {
+            File = filePath,
+            Layout = new PatternLayout( layout ),
+        };
+        appender.ActivateOptions();
+        return appender;
+    }
 
     private IAppender CreateLog4netTarget( LogTarget target, LogConfiguration config ) => target.Type switch
     {

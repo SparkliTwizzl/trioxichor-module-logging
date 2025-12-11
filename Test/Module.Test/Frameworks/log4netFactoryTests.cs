@@ -19,16 +19,11 @@ public class log4netFactoryTests
             MinimumLevel = LogLevel.Warning
         };
         _ = new log4netFactory( config );
-        var log4netConfig = LogManager.GetRepository();
-        Assert.NotNull( log4netConfig );
-        var hierarchy = ( log4net.Repository.Hierarchy.Hierarchy ) log4netConfig;
+        var repository = LogManager.GetRepository();
+        Assert.NotNull( repository );
+        var hierarchy = ( log4net.Repository.Hierarchy.Hierarchy ) repository;
         Assert.NotNull( hierarchy.Root.Level );
-        Assert.DoesNotContain( Level.All, ( IEnumerable<Level> ) hierarchy.Root.Level );
-        Assert.DoesNotContain( Level.Debug, ( IEnumerable<Level> ) hierarchy.Root.Level );
-        Assert.DoesNotContain( Level.Info, ( IEnumerable<Level> ) hierarchy.Root.Level );
-        Assert.Contains( Level.Warn, ( IEnumerable<Level> ) hierarchy.Root.Level );
-        Assert.Contains( Level.Error, ( IEnumerable<Level> ) hierarchy.Root.Level );
-        Assert.Contains( Level.Fatal, ( IEnumerable<Level> ) hierarchy.Root.Level );
+        Assert.True( hierarchy.Root.Level == Level.Warn );
     }
 
     [Fact]
@@ -45,15 +40,15 @@ public class log4netFactoryTests
             Targets = new List<LogTarget> { target }
         };
         _ = new log4netFactory( config );
-        var log4netConfig = LogManager.GetRepository();
-        Assert.NotNull( log4netConfig );
-        var consoleAppender = log4netConfig.GetAppenders().OfType<ConsoleAppender>().FirstOrDefault();
+        var repository = LogManager.GetRepository();
+        Assert.NotNull( repository );
+        var consoleAppender = repository.GetAppenders().OfType<ConsoleAppender>().FirstOrDefault();
         Assert.NotNull( consoleAppender );
-        Assert.NotNull( consoleAppender?.Layout );
-        if ( consoleAppender is not null )
-        {
-            Assert.Equal( layoutFormat, consoleAppender?.Layout?.ToString() );
-        }
+        var layout = consoleAppender.Layout as log4net.Layout.PatternLayout;
+        Assert.NotNull( layout );
+        var expected = "%longdate|%level|%message%newline";
+        var actual = layout.ConversionPattern.ToString();
+        Assert.Equal( expected, actual );
     }
 
     [Fact]
@@ -68,9 +63,9 @@ public class log4netFactoryTests
             Targets = new List<LogTarget> { target }
         };
         _ = new log4netFactory( config );
-        var log4netConfig = LogManager.GetRepository();
-        Assert.NotNull( log4netConfig );
-        Assert.Contains( log4netConfig.GetAppenders(), t => t is ConsoleAppender );
+        var repository = LogManager.GetRepository();
+        Assert.NotNull( repository );
+        Assert.Contains( repository.GetAppenders(), t => t is ConsoleAppender );
     }
 
     [Fact]
@@ -91,8 +86,8 @@ public class log4netFactoryTests
             Targets = new List<LogTarget> { target },
         };
         _ = new log4netFactory( config );
-        var log4netConfig = LogManager.GetRepository();
-        var appenders = log4netConfig.GetAppenders();
+        var repository = LogManager.GetRepository();
+        var appenders = repository.GetAppenders();
         var coloredConsoleAppender = appenders.OfType<ColoredConsoleAppender>().FirstOrDefault();
         Assert.NotNull( coloredConsoleAppender );
         var levelMappings = coloredConsoleAppender.GetType()
@@ -117,9 +112,9 @@ public class log4netFactoryTests
             Targets = new List<LogTarget> { target }
         };
         _ = new log4netFactory( config );
-        var log4netConfig = LogManager.GetRepository();
-        Assert.NotNull( log4netConfig );
-        var fileTarget = log4netConfig.GetAppenders().OfType<FileAppender>().FirstOrDefault();
+        var repository = LogManager.GetRepository();
+        Assert.NotNull( repository );
+        var fileTarget = repository.GetAppenders().OfType<FileAppender>().FirstOrDefault();
         Assert.NotNull( fileTarget );
         Assert.NotNull( fileTarget.File );
         Assert.Equal( target.FilePath, fileTarget.File );
