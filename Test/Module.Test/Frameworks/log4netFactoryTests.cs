@@ -1,16 +1,27 @@
 using log4net;
 using log4net.Appender;
 using log4net.Core;
+using log4net.Util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Xunit;
-using static log4net.Appender.ColoredConsoleAppender;
+using static log4net.Appender.ManagedColoredConsoleAppender;
 
 namespace SparkliTwizzl.Trioxichor.Logging.Frameworks.Test;
 
-public class log4netFactoryTests
+public class log4netFactoryTests : IDisposable
 {
+    public void Dispose()
+    {
+        var repository = LogManager.GetRepository();
+        if ( repository is log4net.Repository.Hierarchy.Hierarchy hierarchy )
+        {
+            hierarchy.Root.RemoveAllAppenders();
+        }
+    }
+
     [Fact]
     public void Constructor_ShouldApplyMinimumLogLevel()
     {
@@ -75,28 +86,54 @@ public class log4netFactoryTests
         {
             Type = LogTargetType.ColoredConsole,
         };
+        var colorMap = new Dictionary<LogLevel, ConsoleColor>
+        {
+            { LogLevel.Info, ConsoleColor.Green },
+            { LogLevel.Warning, ConsoleColor.Yellow },
+            { LogLevel.Error, ConsoleColor.Red },
+        };
         var config = new LogConfiguration
         {
-            ConsoleColorMap = new Dictionary<LogLevel, ConsoleColor>
-            {
-                { LogLevel.Info, ConsoleColor.Green },
-                { LogLevel.Warning, ConsoleColor.Yellow },
-                { LogLevel.Error, ConsoleColor.Red },
-            },
+            ConsoleColorMap = colorMap,
             Targets = new List<LogTarget> { target },
         };
         _ = new log4netFactory( config );
         var repository = LogManager.GetRepository();
-        var appenders = repository.GetAppenders();
-        var coloredConsoleAppender = appenders.OfType<ColoredConsoleAppender>().FirstOrDefault();
-        Assert.NotNull( coloredConsoleAppender );
-        var levelMappings = coloredConsoleAppender.GetType()
-            .GetField( "m_levelColors", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance )
-            ?.GetValue( coloredConsoleAppender ) as IEnumerable<LevelColors>;
-        Assert.NotNull( levelMappings );
-        Assert.Contains( levelMappings, mapping => mapping.Level == Level.Info && mapping.ForeColor == Colors.Green );
-        Assert.Contains( levelMappings, mapping => mapping.Level == Level.Warn && mapping.ForeColor == Colors.Yellow );
-        Assert.Contains( levelMappings, mapping => mapping.Level == Level.Error && mapping.ForeColor == Colors.Red );
+        var allAppenders = repository.GetAppenders();
+        var appender = allAppenders.OfType<ManagedColoredConsoleAppender>().FirstOrDefault();
+        Assert.NotNull( appender );
+
+        var expected = new Dictionary<Level, LevelColors>
+        {
+            { Level.Info, new() { Level = Level.Info, ForeColor = ConsoleColor.Green } },
+            { Level.Warn, new() { Level = Level.Warn, ForeColor = ConsoleColor.Yellow } },
+            { Level.Error, new() { Level = Level.Error, ForeColor = ConsoleColor.Red } },
+        };
+
+        var levelMapping = appender
+            .GetType()
+            .GetField( "_levelMapping", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance )?
+            .GetValue( appender );
+        Assert.NotNull( levelMapping );
+        var entries = levelMapping
+            .GetType()
+            .GetField( "_entries", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance )?
+            .GetValue( levelMapping );
+        Assert.NotNull( entries );
+        var actual = entries as Dictionary<Level, LevelMappingEntry>;
+        Assert.NotNull( actual );
+
+        Assert.Equal( expected.Count, actual.Count );
+        foreach ( var expectedItem in expected )
+        {
+            Assert.True( actual.ContainsKey( expectedItem.Key ) );
+            var expectedValue = expectedItem.Value;
+            var actualValue = actual[ expectedItem.Key ] as LevelColors;
+            Assert.NotNull( actualValue );
+            Assert.Equal( expectedValue.BackColor, actualValue.BackColor );
+            Assert.Equal( expectedValue.ForeColor, actualValue.ForeColor );
+            Assert.Equal( expectedValue.Level, actualValue.Level );
+        }
     }
 
     [Fact]
@@ -114,10 +151,12 @@ public class log4netFactoryTests
         _ = new log4netFactory( config );
         var repository = LogManager.GetRepository();
         Assert.NotNull( repository );
-        var fileTarget = repository.GetAppenders().OfType<FileAppender>().FirstOrDefault();
-        Assert.NotNull( fileTarget );
-        Assert.NotNull( fileTarget.File );
-        Assert.Equal( target.FilePath, fileTarget.File );
+        var allAppenders = repository.GetAppenders();
+        var appender = allAppenders.OfType<FileAppender>().FirstOrDefault();
+        Assert.NotNull( appender );
+        Assert.NotNull( appender.File );
+        var actual = Path.GetFileName( appender.File );
+        Assert.Equal( target.FilePath, actual );
     }
 
     [Fact]

@@ -4,6 +4,7 @@ using log4net.Layout;
 using log4net.Repository.Hierarchy;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SparkliTwizzl.Trioxichor.Logging.Frameworks;
 
@@ -28,27 +29,6 @@ public class log4netFactory : ILoggingFrameworkFactory
         hierarchy.Root.Level = ConvertLogLevelToLog4net( config.MinimumLevel );
         hierarchy.Configured = true;
     }
-
-    private ColoredConsoleAppender.Colors ConvertConsoleColorToLog4netColor( ConsoleColor color ) => color switch
-    {
-        ConsoleColor.Black => 0,
-        ConsoleColor.Blue => ColoredConsoleAppender.Colors.Blue | ColoredConsoleAppender.Colors.HighIntensity,
-        ConsoleColor.Cyan => ColoredConsoleAppender.Colors.Cyan | ColoredConsoleAppender.Colors.HighIntensity,
-        ConsoleColor.DarkBlue => ColoredConsoleAppender.Colors.Blue,
-        ConsoleColor.DarkCyan => ColoredConsoleAppender.Colors.Cyan,
-        ConsoleColor.DarkGray => ColoredConsoleAppender.Colors.White,
-        ConsoleColor.DarkGreen => ColoredConsoleAppender.Colors.Green,
-        ConsoleColor.DarkMagenta => ColoredConsoleAppender.Colors.Purple,
-        ConsoleColor.DarkRed => ColoredConsoleAppender.Colors.Red,
-        ConsoleColor.DarkYellow => ColoredConsoleAppender.Colors.Yellow,
-        ConsoleColor.Gray => ColoredConsoleAppender.Colors.White,
-        ConsoleColor.Green => ColoredConsoleAppender.Colors.Green | ColoredConsoleAppender.Colors.HighIntensity,
-        ConsoleColor.Magenta => ColoredConsoleAppender.Colors.Purple | ColoredConsoleAppender.Colors.HighIntensity,
-        ConsoleColor.Red => ColoredConsoleAppender.Colors.Red | ColoredConsoleAppender.Colors.HighIntensity,
-        ConsoleColor.White => ColoredConsoleAppender.Colors.White | ColoredConsoleAppender.Colors.HighIntensity,
-        ConsoleColor.Yellow => ColoredConsoleAppender.Colors.Yellow | ColoredConsoleAppender.Colors.HighIntensity,
-        _ => throw new ArgumentOutOfRangeException( nameof( color ), $"Unsupported {nameof( ConsoleColor )}: {color}" )
-    };
 
     private string ConvertLayoutToLog4netPattern( string layout )
     {
@@ -77,9 +57,11 @@ public class log4netFactory : ILoggingFrameworkFactory
 
     private IAppender CreateLog4netColorlessConsoleTarget( string layout )
     {
+        var patternLayout = new PatternLayout( layout );
+        patternLayout.ActivateOptions();
         var appender = new ConsoleAppender
         {
-            Layout = new PatternLayout( layout ),
+            Layout = patternLayout,
         };
         appender.ActivateOptions();
         return appender;
@@ -91,17 +73,28 @@ public class log4netFactory : ILoggingFrameworkFactory
         {
             throw new ArgumentNullException( nameof( colorMap ), $"{nameof( colorMap )} cannot be null or empty when creating a colored console target." );
         }
-        var appender = new ColoredConsoleAppender
+        // Register Windows encoding provider if not available (needed for encoding 437)
+        try
         {
-            Layout = new PatternLayout( layout ),
+            _ = Encoding.GetEncoding( 437 );
+        }
+        catch ( NotSupportedException )
+        {
+            Encoding.RegisterProvider( CodePagesEncodingProvider.Instance );
+        }
+        var patternLayout = new PatternLayout( layout );
+        patternLayout.ActivateOptions();
+        var appender = new ManagedColoredConsoleAppender
+        {
+            Layout = patternLayout,
         };
         foreach ( var mapping in colorMap )
         {
             var log4netLevel = ConvertLogLevelToLog4net( mapping.Key );
-            appender.AddMapping( new ColoredConsoleAppender.LevelColors
+            appender.AddMapping( new()
             {
                 Level = log4netLevel,
-                ForeColor = ConvertConsoleColorToLog4netColor( mapping.Value ),
+                ForeColor = mapping.Value,
             } );
         }
         appender.ActivateOptions();
@@ -114,10 +107,12 @@ public class log4netFactory : ILoggingFrameworkFactory
         {
             throw new ArgumentException( $"File path cannot be null or empty.", nameof( filePath ) );
         }
+        var patternLayout = new PatternLayout( layout );
+        patternLayout.ActivateOptions();
         var appender = new FileAppender
         {
             File = filePath,
-            Layout = new PatternLayout( layout ),
+            Layout = patternLayout,
         };
         appender.ActivateOptions();
         return appender;
