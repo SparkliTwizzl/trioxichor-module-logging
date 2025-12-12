@@ -37,18 +37,18 @@ public class NLogLoggerTests
     [Fact]
     public void Constructor_ShouldSetCategoryName()
     {
-        var loggerName = "TestCategory";
-        var nlogLogger = logFactoryAllLevels.GetLogger( loggerName );
-        var logger = new NLogLogger( nlogLogger );
-        Assert.Equal( loggerName, logger.CategoryName );
+        var loggerName = testCategoryName;
+        var internalLogger = logFactoryAllLevels.GetLogger( loggerName );
+        var testLogger = new NLogLogger( internalLogger );
+        Assert.Equal( loggerName, testLogger.CategoryName );
     }
 
     [Fact]
     public void Debug_Message_ShouldLogMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Debug( testMessage );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Debug( testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -58,9 +58,9 @@ public class NLogLoggerTests
     [Fact]
     public void Debug_MessageWithArgs_ShouldLogFormattedMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Debug( testFormatMessage, testArgument );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Debug( testFormatMessage, testArgument );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -70,10 +70,10 @@ public class NLogLoggerTests
     [Fact]
     public void Debug_ExceptionWithMessage_ShouldLogExceptionAndMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
         var exception = new Exception( testExceptionMessage );
-        logger.Debug( exception, testMessage );
+        testLogger.Debug( exception, testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -83,10 +83,10 @@ public class NLogLoggerTests
     [Fact]
     public void Debug_ExceptionWithMessageAndArgs_ShouldLogExceptionAndFormattedMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
         var exception = new Exception( testExceptionMessage );
-        logger.Debug( exception, testFormatMessage, testArgument );
+        testLogger.Debug( exception, testFormatMessage, testArgument );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -96,9 +96,9 @@ public class NLogLoggerTests
     [Fact]
     public void Debug_MessageFactory_LevelDisabled_ShouldNotLogMessage()
     {
-        var nlogLogger = logFactoryNoLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Debug( () => testMessage );
+        var internalLogger = logFactoryNoLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Debug( () => testMessage );
         var config = logFactoryNoLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -108,9 +108,9 @@ public class NLogLoggerTests
     [Fact]
     public void Debug_MessageFactory_LevelEnabled_ShouldLogMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Debug( () => testMessage );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Debug( () => testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -120,9 +120,9 @@ public class NLogLoggerTests
     [Fact]
     public void Error_Message_ShouldLogMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Error( testMessage );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Error( testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -132,9 +132,9 @@ public class NLogLoggerTests
     [Fact]
     public void Error_MessageWithArgs_ShouldLogFormattedMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Error( testFormatMessage, testArgument );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Error( testFormatMessage, testArgument );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -144,10 +144,10 @@ public class NLogLoggerTests
     [Fact]
     public void Error_ExceptionWithMessage_ShouldLogExceptionAndMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
         var exception = new Exception( testExceptionMessage );
-        logger.Error( exception, testMessage );
+        testLogger.Error( exception, testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -157,10 +157,10 @@ public class NLogLoggerTests
     [Fact]
     public void Error_ExceptionWithMessageAndArgs_ShouldLogExceptionAndFormattedMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
         var exception = new Exception( testExceptionMessage );
-        logger.Error( exception, testFormatMessage, testArgument );
+        testLogger.Error( exception, testFormatMessage, testArgument );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -170,9 +170,9 @@ public class NLogLoggerTests
     [Fact]
     public void Error_MessageFactory_LevelDisabled_ShouldNotLogMessage()
     {
-        var nlogLogger = logFactoryNoLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Error( () => testMessage );
+        var internalLogger = logFactoryNoLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Error( () => testMessage );
         var config = logFactoryNoLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -182,9 +182,9 @@ public class NLogLoggerTests
     [Fact]
     public void Error_MessageFactory_LevelEnabled_ShouldLogMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Error( () => testMessage );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Error( () => testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -194,9 +194,9 @@ public class NLogLoggerTests
     [Fact]
     public void Fatal_Message_ShouldLogMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Fatal( testMessage );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Fatal( testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -206,9 +206,9 @@ public class NLogLoggerTests
     [Fact]
     public void Fatal_MessageWithArgs_ShouldLogFormattedMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Fatal( testFormatMessage, testArgument );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Fatal( testFormatMessage, testArgument );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -218,10 +218,10 @@ public class NLogLoggerTests
     [Fact]
     public void Fatal_ExceptionWithMessage_ShouldLogExceptionAndMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
         var exception = new Exception( testExceptionMessage );
-        logger.Fatal( exception, testMessage );
+        testLogger.Fatal( exception, testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -231,10 +231,10 @@ public class NLogLoggerTests
     [Fact]
     public void Fatal_ExceptionWithMessageAndArgs_ShouldLogExceptionAndFormattedMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
         var exception = new Exception( testExceptionMessage );
-        logger.Fatal( exception, testFormatMessage, testArgument );
+        testLogger.Fatal( exception, testFormatMessage, testArgument );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -244,9 +244,9 @@ public class NLogLoggerTests
     [Fact]
     public void Fatal_MessageFactory_LevelDisabled_ShouldNotLogMessage()
     {
-        var nlogLogger = logFactoryNoLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Fatal( () => testMessage );
+        var internalLogger = logFactoryNoLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Fatal( () => testMessage );
         var config = logFactoryNoLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -256,9 +256,9 @@ public class NLogLoggerTests
     [Fact]
     public void Fatal_MessageFactory_LevelEnabled_ShouldLogMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Fatal( () => testMessage );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Fatal( () => testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -268,9 +268,9 @@ public class NLogLoggerTests
     [Fact]
     public void Info_Message_ShouldLogMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Info( testMessage );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Info( testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -280,9 +280,9 @@ public class NLogLoggerTests
     [Fact]
     public void Info_MessageWithArgs_ShouldLogFormattedMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Info( testFormatMessage, testArgument );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Info( testFormatMessage, testArgument );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -292,10 +292,10 @@ public class NLogLoggerTests
     [Fact]
     public void Info_ExceptionWithMessage_ShouldLogExceptionAndMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
         var exception = new Exception( testExceptionMessage );
-        logger.Info( exception, testMessage );
+        testLogger.Info( exception, testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -305,10 +305,10 @@ public class NLogLoggerTests
     [Fact]
     public void Info_ExceptionWithMessageAndArgs_ShouldLogExceptionAndFormattedMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
         var exception = new Exception( testExceptionMessage );
-        logger.Info( exception, testFormatMessage, testArgument );
+        testLogger.Info( exception, testFormatMessage, testArgument );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -318,9 +318,9 @@ public class NLogLoggerTests
     [Fact]
     public void Info_MessageFactory_LevelDisabled_ShouldNotLogMessage()
     {
-        var nlogLogger = logFactoryNoLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Info( () => testMessage );
+        var internalLogger = logFactoryNoLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Info( () => testMessage );
         var config = logFactoryNoLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -330,9 +330,9 @@ public class NLogLoggerTests
     [Fact]
     public void Info_MessageFactory_LevelEnabled_ShouldLogMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Info( () => testMessage );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Info( () => testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -342,9 +342,9 @@ public class NLogLoggerTests
     [Fact]
     public void Trace_Message_ShouldLogMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Trace( testMessage );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Trace( testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -354,9 +354,9 @@ public class NLogLoggerTests
     [Fact]
     public void Trace_MessageWithArgs_ShouldLogFormattedMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Trace( testFormatMessage, testArgument );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Trace( testFormatMessage, testArgument );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -366,10 +366,10 @@ public class NLogLoggerTests
     [Fact]
     public void Trace_ExceptionWithMessage_ShouldLogExceptionAndMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
         var exception = new Exception( testExceptionMessage );
-        logger.Trace( exception, testMessage );
+        testLogger.Trace( exception, testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -379,10 +379,10 @@ public class NLogLoggerTests
     [Fact]
     public void Trace_ExceptionWithMessageAndArgs_ShouldLogExceptionAndFormattedMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
         var exception = new Exception( testExceptionMessage );
-        logger.Trace( exception, testFormatMessage, testArgument );
+        testLogger.Trace( exception, testFormatMessage, testArgument );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -392,9 +392,9 @@ public class NLogLoggerTests
     [Fact]
     public void Trace_MessageFactory_LevelDisabled_ShouldNotLogMessage()
     {
-        var nlogLogger = logFactoryNoLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Trace( () => testMessage );
+        var internalLogger = logFactoryNoLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Trace( () => testMessage );
         var config = logFactoryNoLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -404,9 +404,9 @@ public class NLogLoggerTests
     [Fact]
     public void Trace_MessageFactory_LevelEnabled_ShouldLogMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Trace( () => testMessage );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Trace( () => testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -416,9 +416,9 @@ public class NLogLoggerTests
     [Fact]
     public void Warning_Message_ShouldLogMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Warning( testMessage );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Warning( testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -428,9 +428,9 @@ public class NLogLoggerTests
     [Fact]
     public void Warning_MessageWithArgs_ShouldLogFormattedMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Warning( testFormatMessage, testArgument );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Warning( testFormatMessage, testArgument );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -440,10 +440,10 @@ public class NLogLoggerTests
     [Fact]
     public void Warning_ExceptionWithMessage_ShouldLogExceptionAndMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
         var exception = new Exception( testExceptionMessage );
-        logger.Warning( exception, testMessage );
+        testLogger.Warning( exception, testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -453,10 +453,10 @@ public class NLogLoggerTests
     [Fact]
     public void Warning_ExceptionWithMessageAndArgs_ShouldLogExceptionAndFormattedMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
         var exception = new Exception( testExceptionMessage );
-        logger.Warning( exception, testFormatMessage, testArgument );
+        testLogger.Warning( exception, testFormatMessage, testArgument );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -466,9 +466,9 @@ public class NLogLoggerTests
     [Fact]
     public void Warning_MessageFactory_LevelDisabled_ShouldNotLogMessage()
     {
-        var nlogLogger = logFactoryNoLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Warning( () => testMessage );
+        var internalLogger = logFactoryNoLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Warning( () => testMessage );
         var config = logFactoryNoLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
@@ -478,9 +478,9 @@ public class NLogLoggerTests
     [Fact]
     public void Warning_MessageFactory_LevelEnabled_ShouldLogMessage()
     {
-        var nlogLogger = logFactoryAllLevels.GetLogger( testCategoryName );
-        var logger = new NLogLogger( nlogLogger );
-        logger.Warning( () => testMessage );
+        var internalLogger = logFactoryAllLevels.GetLogger( testCategoryName );
+        var testLogger = new NLogLogger( internalLogger );
+        testLogger.Warning( () => testMessage );
         var config = logFactoryAllLevels.Configuration;
         Assert.NotNull( config );
         var memoryTarget = ( MemoryTarget ) config.AllTargets[ 0 ];
